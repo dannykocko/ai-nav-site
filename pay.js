@@ -17,6 +17,62 @@
   var pendingPlan = null;
   var authMode = 'login';
 
+  // ---------- 货币（USD / EUR，无人民币） ----------
+  var CURRENCY_KEY = 'svip-currency';
+  var PRICES = {
+    month: { usd: 9.9, eur: 9.9, months: 1 },
+    quarter: { usd: 19.9, eur: 19.9, months: 3 },
+    half: { usd: 29.9, eur: 29.9, months: 6 },
+    year: { usd: 69.9, eur: 69.9, months: 12 },
+    lifetime: { usd: 99, eur: 99, months: 0 },
+  };
+  var currency = 'usd';
+  var currencyManual = false;
+  try {
+    var savedCur = localStorage.getItem(CURRENCY_KEY);
+    if (savedCur === 'usd' || savedCur === 'eur') { currency = savedCur; currencyManual = true; }
+  } catch (e) {}
+  function currencySymbol() { return currency === 'eur' ? '€' : '$'; }
+  function currencyForLang(lang) { return (lang === 'de' || lang === 'fr') ? 'eur' : 'usd'; }
+  function setCurrency(cur, manual) {
+    if (cur !== 'usd' && cur !== 'eur') return;
+    currency = cur;
+    if (manual) {
+      currencyManual = true;
+      try { localStorage.setItem(CURRENCY_KEY, cur); } catch (e) {}
+    }
+    renderPrices();
+    renderCurrencyToggle();
+  }
+  function renderCurrencyToggle() {
+    var btns = document.querySelectorAll('.cur-btn');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].classList.toggle('active', btns[i].getAttribute('data-currency') === currency);
+    }
+  }
+  function perMonthText(p) {
+    var v = Math.round((p[currency] / p.months) * 100) / 100;
+    return tf('pricing.per', { symbol: currencySymbol(), n: v });
+  }
+  function renderPrices() {
+    var cards = document.querySelectorAll('.price-card');
+    for (var i = 0; i < cards.length; i++) {
+      var btn = cards[i].querySelector('.price-btn');
+      if (!btn) continue;
+      var plan = btn.getAttribute('data-plan');
+      var p = PRICES[plan];
+      if (!p) continue;
+      var curEl = cards[i].querySelector('.price .currency');
+      if (curEl) curEl.textContent = currencySymbol();
+      var amtEl = cards[i].querySelector('.price .price-amount');
+      if (amtEl) amtEl.textContent = p[currency];
+      var perEl = cards[i].querySelector('.per');
+      if (perEl) {
+        perEl.textContent = plan === 'lifetime' ? t('pricing.perLifetime') : perMonthText(p);
+      }
+    }
+  }
+
   function $(id) { return document.getElementById(id); }
   function t(key) { return (window.I18N ? I18N.t(key) : key); }
   function tf(key, vars) { return (window.I18N ? I18N.tf(key, vars) : key); }
@@ -112,6 +168,15 @@
     if (swText) swText.textContent = mode === 'register' ? t('pay.hasAccount') : t('pay.noAccount');
     var swBtn = $('authSwitch');
     if (swBtn) swBtn.textContent = mode === 'register' ? t('pay.login') : t('pay.register');
+    // 注册模式才显示“确认密码 + 邮箱验证码”，登录模式隐藏。
+    var cpRow = $('confirmPwRow');
+    if (cpRow) cpRow.hidden = mode !== 'register';
+    var cRow = $('codeRow');
+    if (cRow) cRow.hidden = mode !== 'register';
+    var pw2 = $('authPassword2');
+    if (pw2) pw2.required = mode === 'register';
+    var codeInput = $('authCode');
+    if (codeInput) codeInput.required = mode === 'register';
   }
   function authError(code, err) {
     var msg;
@@ -119,6 +184,8 @@
     else if (code === 'invalid_credentials') msg = t('pay.errAuth');
     else if (code === 'invalid_email') msg = t('pay.errEmail');
     else if (code === 'password_too_short') msg = t('pay.errPassword');
+    else if (code === 'code_invalid') msg = t('pay.errCodeInvalid');
+    else if (code === 'email_send_failed') msg = t('pay.errEmailSend');
     else if (err && err.status === 429) msg = t('pay.errTooMany');
     else if (err && (err.message === 'Failed to fetch' || err instanceof TypeError)) msg = t('pay.errNetwork');
     else msg = t('pay.errGeneric');
@@ -139,10 +206,24 @@
       if (errEl) { errEl.textContent = t('pay.errPassword'); errEl.hidden = false; }
       return;
     }
+    var body = { email: email, password: pw };
+    if (authMode === 'register') {
+      var pw2 = $('authPassword2') ? $('authPassword2').value : '';
+      if (pw2 !== pw) {
+        if (errEl) { errEl.textContent = t('pay.errPasswordMismatch'); errEl.hidden = false; }
+        return;
+      }
+      var code = $('authCode') ? $('authCode').value.trim() : '';
+      if (!/^\d{6}$/.test(code)) {
+        if (errEl) { errEl.textContent = t('pay.errCodeInvalid'); errEl.hidden = false; }
+        return;
+      }
+      body.code = code;
+    }
     var btn = $('authSubmit');
     if (btn) btn.disabled = true;
     var path = authMode === 'register' ? '/api/register' : '/api/login';
-    api(path, { method: 'POST', body: { email: email, password: pw } })
+    api(path, { method: 'POST', body: body })
       .then(function (data) {
         if (authMode === 'register') {
           return api('/api/login', { method: 'POST', body: { email: email, password: pw } });
@@ -159,6 +240,47 @@
       .catch(function (err) {
         if (btn) btn.disabled = false;
         if (err.code === 'email_exists') setAuthMode('login');
+        authError(err.code, err);
+      });
+  }
+
+  // ---------- 发送邮箱验证码（注册用，60 秒冷却） ----------
+  var codeCooldown = 0, codeTimer = null;
+  function startCodeCooldown() {
+    var btn = $('sendCodeBtn');
+    if (!btn) return;
+    codeCooldown = 60;
+    btn.disabled = true;
+    var tick = function () {
+      if (codeCooldown <= 0) {
+        btn.disabled = false;
+        btn.textContent = t('pay.sendCode');
+        if (codeTimer) { clearInterval(codeTimer); codeTimer = null; }
+        return;
+      }
+      btn.textContent = tf('pay.codeResend', { n: codeCooldown });
+      codeCooldown -= 1;
+    };
+    tick();
+    codeTimer = setInterval(tick, 1000);
+  }
+  function sendCode() {
+    var email = $('authEmail').value.trim();
+    var errEl = $('authErr');
+    if (errEl) errEl.hidden = true;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (errEl) { errEl.textContent = t('pay.errEmail'); errEl.hidden = false; }
+      return;
+    }
+    var btn = $('sendCodeBtn');
+    if (btn) btn.disabled = true;
+    api('/api/send-code', { method: 'POST', body: { email: email } })
+      .then(function () {
+        showToast(t('pay.codeSent'));
+        startCodeCooldown();
+      })
+      .catch(function (err) {
+        if (btn) btn.disabled = false;
         authError(err.code, err);
       });
   }
@@ -181,7 +303,8 @@
     } else {
       var m = me.membership || {};
       var status = m.active
-        ? tf('pay.memberActive', { plan: planLabel(m.plan), date: fmtDate(m.expires_at) })
+        ? (m.lifetime ? t('pay.memberLifetime')
+          : tf('pay.memberActive', { plan: planLabel(m.plan), date: fmtDate(m.expires_at) }))
         : t('pay.memberNone');
       bar.innerHTML = '<span class="mb-text">' + esc(me.email) + ' · ' + esc(status) + '</span>' +
         '<button type="button" class="btn-outline mb-btn" data-act="logout">' + esc(t('pay.logout')) + '</button>';
@@ -236,7 +359,7 @@
     currentOrder = { plan: plan, network: network, status: 'creating' };
     openOrderModal();
     renderOrder();
-    api('/api/create-order', { method: 'POST', body: { plan: plan, network: network } })
+    api('/api/create-order', { method: 'POST', body: { plan: plan, network: network, currency: currency } })
       .then(function (order) {
         currentOrder = order;
         currentOrder.plan = plan;
@@ -352,7 +475,7 @@
     html += '<div class="order-row amount-row"><span class="order-label">' + esc(t('pay.amount')) + '</span>' +
       '<strong class="order-amount">' + esc(amount) + ' USDT</strong>' +
       '<button type="button" class="mini-btn" data-copy="' + esc(amount) + '">' + esc(t('pay.copy')) + '</button></div>';
-    html += '<p class="order-cny">' + esc(tf('pay.amountCny', { n: o.amount_cny, rate: o.rate })) + '</p>';
+    html += '<p class="order-fiat">' + esc(tf('pay.amountFiat', { symbol: o.symbol || '$', n: o.amount_fiat, rate: (typeof o.rate === 'number' ? o.rate.toFixed(4) : o.rate) })) + '</p>';
     if (o.high_fee) html += '<p class="order-fee">' + esc(t('pay.highFee')) + '</p>';
     html += '<div class="order-warn"><strong>' + esc(t('pay.warnTitle')) + '</strong><p>' + esc(t('pay.warnAmount')) + '</p><p>' + esc(t('pay.warnNetwork')) + '</p></div>';
     html += '<p class="order-status ' + statusClass() + '" id="orderStatus">' + esc(statusText()) + '</p>';
@@ -383,6 +506,15 @@
         startCheckout(plan);
       });
     }
+
+    var curBtns = document.querySelectorAll('.cur-btn');
+    for (var c = 0; c < curBtns.length; c++) {
+      curBtns[c].addEventListener('click', function (ev) {
+        setCurrency(ev.currentTarget.getAttribute('data-currency'), true);
+      });
+    }
+    var codeBtn = $('sendCodeBtn');
+    if (codeBtn) codeBtn.addEventListener('click', sendCode);
 
     var navBtn = $('navAuth');
     if (navBtn) navBtn.addEventListener('click', function () {
@@ -432,10 +564,17 @@
 
     loadNetworks();
     refreshMe();
-    if (window.I18N) I18N.onChange(function () {
+    // 货币默认跟随页面语言（en→USD，de/fr→EUR，其余→USD）；手动切换后记住选择。
+    if (!currencyManual && window.I18N) currency = currencyForLang(I18N.state.lang);
+    renderPrices();
+    renderCurrencyToggle();
+    if (window.I18N) I18N.onChange(function (lang) {
       setAuthMode(authMode);
       renderMemberBar();
       renderNavAuth();
+      if (!currencyManual) currency = currencyForLang(lang);
+      renderPrices();
+      renderCurrencyToggle();
       var om = $('orderModal');
       if (currentOrder && om && !om.hidden) renderOrder();
     });

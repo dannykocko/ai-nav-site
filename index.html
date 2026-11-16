@@ -93,13 +93,18 @@
       <p class="eyebrow" data-i18n="pricing.eyebrow">SVIP 会员</p>
       <h2 data-i18n="pricing.h2">价格简单，按需开通。</h2>
       <p class="section-sub" data-i18n="pricing.sub">解锁 AI 与 Agent 搭建、使用、落地业务的最新最全教程课程，持续更新。四档可选，支持 USDT 支付，到账自动开通。</p>
+      <div class="currency-toggle" role="group" aria-label="Currency">
+        <span class="cur-label" data-i18n="pricing.currency">货币</span>
+        <button type="button" class="cur-btn active" data-currency="usd">USD $</button>
+        <button type="button" class="cur-btn" data-currency="eur">EUR €</button>
+      </div>
     </div>
     <div class="member-bar" id="memberBar"></div>
     <div class="pricing-grid">
       <article class="price-card">
         <h3 data-i18n="pricing.plan.month">一个月</h3>
-        <p class="price"><span class="currency">¥</span>199</p>
-        <p class="per" data-i18n-per="199">约 ¥199/月</p>
+        <p class="price"><span class="currency">$</span><span class="price-amount">9.9</span></p>
+        <p class="per" data-per-plan="month"></p>
         <ul class="benefits">
           <li data-i18n="pricing.benefit1">AI / Agent 搭建全教程</li>
           <li data-i18n="pricing.benefit2">使用指南</li>
@@ -110,8 +115,8 @@
       </article>
       <article class="price-card">
         <h3 data-i18n="pricing.plan.quarter">三个月</h3>
-        <p class="price"><span class="currency">¥</span>499</p>
-        <p class="per" data-i18n-per="166">约 ¥166/月</p>
+        <p class="price"><span class="currency">$</span><span class="price-amount">19.9</span></p>
+        <p class="per" data-per-plan="quarter"></p>
         <ul class="benefits">
           <li data-i18n="pricing.benefit1">AI / Agent 搭建全教程</li>
           <li data-i18n="pricing.benefit2">使用指南</li>
@@ -122,8 +127,8 @@
       </article>
       <article class="price-card">
         <h3 data-i18n="pricing.plan.half">半年</h3>
-        <p class="price"><span class="currency">¥</span>699</p>
-        <p class="per" data-i18n-per="117">约 ¥117/月</p>
+        <p class="price"><span class="currency">$</span><span class="price-amount">29.9</span></p>
+        <p class="per" data-per-plan="half"></p>
         <ul class="benefits">
           <li data-i18n="pricing.benefit1">AI / Agent 搭建全教程</li>
           <li data-i18n="pricing.benefit2">使用指南</li>
@@ -135,8 +140,8 @@
       <article class="price-card featured">
         <span class="best-badge" data-i18n="pricing.best">最划算</span>
         <h3 data-i18n="pricing.plan.year">一年</h3>
-        <p class="price"><span class="currency">¥</span>999</p>
-        <p class="per" data-i18n-per="83">约 ¥83/月</p>
+        <p class="price"><span class="currency">$</span><span class="price-amount">69.9</span></p>
+        <p class="per" data-per-plan="year"></p>
         <ul class="benefits">
           <li data-i18n="pricing.benefit1">AI / Agent 搭建全教程</li>
           <li data-i18n="pricing.benefit2">使用指南</li>
@@ -144,6 +149,18 @@
           <li data-i18n="pricing.benefit4">持续更新</li>
         </ul>
         <button type="button" class="btn-primary price-btn" data-plan="year" data-i18n="pricing.btn">立即开通</button>
+      </article>
+      <article class="price-card">
+        <h3 data-i18n="pricing.plan.lifetime">永久</h3>
+        <p class="price"><span class="currency">$</span><span class="price-amount">99</span></p>
+        <p class="per" data-per-plan="lifetime"></p>
+        <ul class="benefits">
+          <li data-i18n="pricing.benefit1">AI / Agent 搭建全教程</li>
+          <li data-i18n="pricing.benefit2">使用指南</li>
+          <li data-i18n="pricing.benefit3">落地业务实战课程</li>
+          <li data-i18n="pricing.benefit4">持续更新</li>
+        </ul>
+        <button type="button" class="btn-primary price-btn" data-plan="lifetime" data-i18n="pricing.btn">立即开通</button>
       </article>
     </div>
   </div>
@@ -301,6 +318,11 @@
     <form id="authForm">
       <label><span data-i18n="pay.email">邮箱</span><input type="email" id="authEmail" required autocomplete="email" data-i18n-ph="pay.emailPh" placeholder="输入邮箱"></label>
       <label><span data-i18n="pay.password">密码</span><input type="password" id="authPassword" required minlength="8" autocomplete="current-password" data-i18n-ph="pay.passwordPh" placeholder="至少 8 位"></label>
+      <label id="confirmPwRow" hidden><span data-i18n="pay.confirmPassword">确认密码</span><input type="password" id="authPassword2" minlength="8" autocomplete="new-password" data-i18n-ph="pay.confirmPasswordPh" placeholder="再次输入密码"></label>
+      <div class="code-row" id="codeRow" hidden>
+        <label><span data-i18n="pay.code">邮箱验证码</span><input type="text" id="authCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" data-i18n-ph="pay.codePh" placeholder="6 位验证码"></label>
+        <button type="button" class="btn-outline code-btn" id="sendCodeBtn" data-i18n="pay.sendCode">发送验证码</button>
+      </div>
       <p class="form-err" id="authErr" hidden></p>
       <button type="submit" class="btn-primary auth-submit" id="authSubmit" data-i18n="pay.loginBtn">登录</button>
     </form>
