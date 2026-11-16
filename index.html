@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 资源导航 · 免费 AI 资源与热门 AI 工具合集</title>
+<meta name="description" content="AI 资源导航：人工核实的免费 AI 资源（免费 API、免费 GPU、免费模型）与热门 AI 工具合集（生图、生视频、写作、编程、音频、搜索、设计、效率）。">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232563eb'/><text x='32' y='42' font-size='28' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>AI</text></svg>">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <h1><span class="logo">AI</span> AI 资源导航</h1>
+    <p class="subtitle">免费 AI 资源（人工核实） × 热门 AI 工具合集 —— 生图、生视频、写作、编程、音频、搜索、设计、效率，一站找全。</p>
+    <p class="stats" id="stats"></p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="搜索工具名、描述或标签，如：视频、API、免费…" autocomplete="off">
+    <label class="free-only"><input type="checkbox" id="freeOnly"> 只看免费（含开源）</label>
+  </div>
+  <nav class="chips" id="chips" aria-label="分类筛选"></nav>
+  <p class="count" id="count"></p>
+  <section class="grid" id="grid"></section>
+  <p class="empty" id="empty" hidden>没有找到匹配的资源，换个关键词或分类试试。</p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>关于“已验证”：</strong>带「已验证」标记的免费资源是本站于 2026 年 11 月人工核实过的（账号、余额、额度均在官方页面确认）；未标记的为公开资料整理，免费额度以官方页面为准，各家政策随时会变。</p>
+    <p><strong>说明：</strong>本站只收录公开链接与公开信息，不存储任何 API Key、Token、密码或个人信息。DeepSeek 官方平台经核实目前无免费额度，已如实标注，避免误导。</p>
+    <p>开源项目 · MIT License · 数据在 <code>app.js</code> 里，欢迎提交 PR 补充或纠错。</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+(function () {
+  var grid = document.getElementById('grid');
+  var chipsBox = document.getElementById('chips');
+  var searchInput = document.getElementById('search');
+  var freeOnlyBox = document.getElementById('freeOnly');
+  var countEl = document.getElementById('count');
+  var emptyEl = document.getElementById('empty');
+  var activeCat = '全部';
+
+  // 统计
+  var verifiedCount = DATA.filter(function (e) { return e.v; }).length;
+  var freeCount = DATA.filter(function (e) { return e.p === '免费' || e.p === '开源'; }).length;
+  document.getElementById('stats').textContent =
+    '共收录 ' + DATA.length + ' 个资源 · 其中已验证 ' + verifiedCount + ' 个 · 免费/开源 ' + freeCount + ' 个';
+
+  // 分类按钮
+  CATEGORIES.forEach(function (cat) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip' + (cat === '全部' ? ' active' : '');
+    b.textContent = cat;
+    b.addEventListener('click', function () {
+      activeCat = cat;
+      Array.prototype.forEach.call(chipsBox.children, function (c) { c.classList.remove('active'); });
+      b.classList.add('active');
+      render();
+    });
+    chipsBox.appendChild(b);
+  });
+
+  function priceClass(p) {
+    return { '免费': 'free', '免费试用': 'trial', '付费': 'paid', '开源': 'oss' }[p] || '';
+  }
+
+  function cardHTML(e) {
+    var badges = '<span class="badge ' + priceClass(e.p) + '">' + e.p + '</span>';
+    if (e.v) badges += '<span class="badge verified">✓ 已验证</span>';
+    var tags = (e.t || []).map(function (t) { return '<span class="tag">' + t + '</span>'; }).join('');
+    var note = e.note ? '<p class="note">' + e.note + '</p>' : '';
+    return '<article class="card">' +
+      '<div class="card-top"><a class="name" href="' + e.u + '" target="_blank" rel="noopener">' + e.n + '</a>' +
+      '<span class="cat">' + e.c + '</span></div>' +
+      '<p class="desc">' + e.d + '</p>' + note +
+      '<div class="card-bottom"><div class="tags">' + tags + '</div>' +
+      '<a class="visit" href="' + e.u + '" target="_blank" rel="noopener">访问 →</a></div>' +
+      '<div class="badges">' + badges + '</div>' +
+      '</article>';
+  }
+
+  function render() {
+    var q = searchInput.value.trim().toLowerCase();
+    var list = DATA.filter(function (e) {
+      if (activeCat !== '全部' && e.c !== activeCat) return false;
+      if (freeOnlyBox.checked && !(e.p === '免费' || e.p === '开源')) return false;
+      if (q) {
+        var hay = (e.n + ' ' + e.d + ' ' + (e.t || []).join(' ') + ' ' + e.u).toLowerCase();
+        if (hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+    grid.innerHTML = list.map(cardHTML).join('');
+    countEl.textContent = '共 ' + list.length + ' 个结果' + (activeCat !== '全部' ? ' · 分类：' + activeCat : '');
+    emptyEl.hidden = list.length > 0;
+  }
+
+  searchInput.addEventListener('input', render);
+  freeOnlyBox.addEventListener('change', render);
+  render();
+})();
+</script>
+</body>
+</html>
