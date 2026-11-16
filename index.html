@@ -6,40 +6,158 @@
 <title>AI 资源导航 · 免费 AI 资源与热门 AI 工具合集</title>
 <meta name="description" content="AI 资源导航：人工核实的免费 AI 资源（免费 API、免费 GPU、免费模型）与热门 AI 工具合集（生图、生视频、写作、编程、音频、搜索、设计、效率）。">
 <link rel="stylesheet" href="styles.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232563eb'/><text x='32' y='42' font-size='28' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>AI</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231d1d1f'/><text x='32' y='42' font-size='26' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>AI</text></svg>">
 </head>
 <body>
-<header class="site-header">
-  <div class="wrap">
-    <h1><span class="logo">AI</span> AI 资源导航</h1>
-    <p class="subtitle">免费 AI 资源（人工核实） × 热门 AI 工具合集 —— 生图、生视频、写作、编程、音频、搜索、设计、效率，一站找全。</p>
-    <p class="stats" id="stats"></p>
+
+<nav class="apple-nav" aria-label="主导航">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">AI 资源导航</a>
+    <div class="nav-links">
+      <a href="#free">免费资源</a>
+      <a href="#tools">热门工具</a>
+      <a href="#prompts">提示词库</a>
+      <a href="#pricing">SVIP</a>
+      <a href="https://github.com/dannykocko/ai-nav-site" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <p class="hero-eyebrow">AI 资源导航</p>
+  <h1>免费 AI，一站找全。</h1>
+  <p class="hero-sub">人工核实的免费大模型、免费 API 与免费 GPU，再加 72 款热门 AI 工具——生图、生视频、写作、编程、音频、搜索、设计、效率，全部免费直达。</p>
+  <p class="hero-stats" id="stats"></p>
+  <div class="hero-cta">
+    <a class="btn-primary" href="#free">看看免费资源</a>
+    <a class="btn-link" href="#tools">浏览全部工具&nbsp;›</a>
   </div>
 </header>
 
-<main class="wrap">
-  <div class="toolbar">
-    <input id="search" type="search" placeholder="搜索工具名、描述或标签，如：视频、API、免费…" autocomplete="off">
-    <label class="free-only"><input type="checkbox" id="freeOnly"> 只看免费（含开源）</label>
+<section class="showcase" id="free" aria-label="免费资源">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">免费资源</p>
+      <h2>人工核实，免费直达。</h2>
+      <p class="section-sub">以下免费模型、API 与 GPU 均在官方页面人工核实过，额度与到期时间如实标注。已验证的排在前面。</p>
+    </div>
+    <div class="showcase-grid" id="showcase"></div>
   </div>
-  <nav class="chips" id="chips" aria-label="分类筛选"></nav>
-  <p class="count" id="count"></p>
-  <section class="grid" id="grid"></section>
-  <p class="empty" id="empty" hidden>没有找到匹配的资源，换个关键词或分类试试。</p>
-</main>
+</section>
+
+<section class="tools" id="tools" aria-label="热门 AI 工具">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">热门工具</p>
+      <h2>72 款热门 AI 工具。</h2>
+      <p class="section-sub">按分类浏览，或用搜索直达。</p>
+    </div>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="搜索工具名、描述或标签，如：视频、API、免费…" autocomplete="off" aria-label="搜索工具">
+      <label class="free-only"><input type="checkbox" id="freeOnly"> 只看免费（含开源）</label>
+    </div>
+    <nav class="chips" id="chips" aria-label="分类筛选"></nav>
+    <p class="count" id="count"></p>
+    <div class="grid" id="grid"></div>
+    <p class="empty" id="empty" hidden>没有找到匹配的工具，换个关键词或分类试试。</p>
+  </div>
+</section>
+
+<section class="prompts" id="prompts" aria-label="提示词库">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">提示词库</p>
+      <h2>好提示词，一句话出片。</h2>
+      <p class="section-sub">216 条精选提示词：204 条视频提示词来自开源合集，另有 12 条通用提示词。点复制，直接粘贴到你的 AI 工具里用。</p>
+    </div>
+    <div class="toolbar">
+      <input id="promptSearch" type="search" placeholder="搜索提示词，如：古风、卡点、猫…" autocomplete="off" aria-label="搜索提示词">
+    </div>
+    <nav class="chips" id="promptChips" aria-label="提示词分类筛选"></nav>
+    <p class="count" id="promptCount"></p>
+    <div class="prompt-grid" id="promptGrid"></div>
+    <p class="empty" id="promptEmpty" hidden>没有找到匹配的提示词，换个关键词或分类试试。</p>
+    <div class="load-more-wrap"><button type="button" class="btn-outline" id="promptMore" hidden>加载更多</button></div>
+    <p class="source-note">来源：视频提示词 204 条来自 <a href="https://github.com/apimodels/muse-video-prompts" target="_blank" rel="noopener">apimodels/muse-video-prompts</a>（开源合集，各条原作者与原文链接见卡片）；通用提示词 12 条来自 <a href="https://www.promptingguide.ai/prompts" target="_blank" rel="noopener">Prompt Engineering Guide</a>（MIT 协议）Prompt Hub。卡片配图为本站竖屏短剧剧照（《血汗钱被骗光，回村种出资本帝国》与《林默》）与 SDXL 测试图，按分类展示，仅作视觉参考，与提示词内容无直接对应。</p>
+  </div>
+</section>
+
+<section class="pricing" id="pricing" aria-label="SVIP 会员">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">SVIP 会员</p>
+      <h2>价格简单，按需开通。</h2>
+      <p class="section-sub">解锁 AI 与 Agent 搭建、使用、落地业务的最新最全教程课程，持续更新。四档可选，支付功能即将开通。</p>
+    </div>
+    <div class="pricing-grid">
+      <article class="price-card">
+        <h3>一个月</h3>
+        <p class="price"><span class="currency">¥</span>199</p>
+        <p class="per">约 ¥199/月</p>
+        <ul class="benefits">
+          <li>AI / Agent 搭建全教程</li>
+          <li>使用指南</li>
+          <li>落地业务实战课程</li>
+          <li>持续更新</li>
+        </ul>
+        <button type="button" class="btn-primary price-btn">立即开通</button>
+      </article>
+      <article class="price-card">
+        <h3>三个月</h3>
+        <p class="price"><span class="currency">¥</span>499</p>
+        <p class="per">约 ¥166/月</p>
+        <ul class="benefits">
+          <li>AI / Agent 搭建全教程</li>
+          <li>使用指南</li>
+          <li>落地业务实战课程</li>
+          <li>持续更新</li>
+        </ul>
+        <button type="button" class="btn-primary price-btn">立即开通</button>
+      </article>
+      <article class="price-card">
+        <h3>半年</h3>
+        <p class="price"><span class="currency">¥</span>699</p>
+        <p class="per">约 ¥117/月</p>
+        <ul class="benefits">
+          <li>AI / Agent 搭建全教程</li>
+          <li>使用指南</li>
+          <li>落地业务实战课程</li>
+          <li>持续更新</li>
+        </ul>
+        <button type="button" class="btn-primary price-btn">立即开通</button>
+      </article>
+      <article class="price-card featured">
+        <span class="best-badge">最划算</span>
+        <h3>一年</h3>
+        <p class="price"><span class="currency">¥</span>999</p>
+        <p class="per">约 ¥83/月</p>
+        <ul class="benefits">
+          <li>AI / Agent 搭建全教程</li>
+          <li>使用指南</li>
+          <li>落地业务实战课程</li>
+          <li>持续更新</li>
+        </ul>
+        <button type="button" class="btn-primary price-btn">立即开通</button>
+      </article>
+    </div>
+  </div>
+</section>
 
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>关于“已验证”：</strong>带「已验证」标记的免费资源是本站于 2026 年 11 月人工核实过的（账号、余额、额度均在官方页面确认）；未标记的为公开资料整理，免费额度以官方页面为准，各家政策随时会变。</p>
     <p><strong>说明：</strong>本站只收录公开链接与公开信息，不存储任何 API Key、Token、密码或个人信息。DeepSeek 官方平台经核实目前无免费额度，已如实标注，避免误导。</p>
-    <p>开源项目 · MIT License · 数据在 <code>app.js</code> 里，欢迎提交 PR 补充或纠错。</p>
+    <p>开源项目 · MIT License · 数据在 <code>app.js</code> 里，欢迎提交 PR 补充或纠错。仓库：<a href="https://github.com/dannykocko/ai-nav-site" target="_blank" rel="noopener">github.com/dannykocko/ai-nav-site</a></p>
   </div>
 </footer>
 
 <script src="app.js"></script>
+<script src="prompts.js"></script>
 <script>
 (function () {
   var grid = document.getElementById('grid');
+  var showcase = document.getElementById('showcase');
+  var showcaseSection = document.getElementById('free');
   var chipsBox = document.getElementById('chips');
   var searchInput = document.getElementById('search');
   var freeOnlyBox = document.getElementById('freeOnly');
@@ -47,14 +165,20 @@
   var emptyEl = document.getElementById('empty');
   var activeCat = '全部';
 
+  // 免费资源单独成区展示（已验证的排在前面）；其余 72 个为热门工具网格
+  var freeResources = DATA.filter(function (e) { return e.c === '免费资源'; });
+  freeResources.sort(function (a, b) { return (b.v ? 1 : 0) - (a.v ? 1 : 0); });
+  var tools = DATA.filter(function (e) { return e.c !== '免费资源'; });
+
   // 统计
   var verifiedCount = DATA.filter(function (e) { return e.v; }).length;
   var freeCount = DATA.filter(function (e) { return e.p === '免费' || e.p === '开源'; }).length;
   document.getElementById('stats').textContent =
     '共收录 ' + DATA.length + ' 个资源 · 其中已验证 ' + verifiedCount + ' 个 · 免费/开源 ' + freeCount + ' 个';
 
-  // 分类按钮
-  CATEGORIES.forEach(function (cat) {
+  // 分类按钮（免费资源已有单独展区，不再出现在筛选里）
+  var toolCats = CATEGORIES.filter(function (c) { return c !== '免费资源'; });
+  toolCats.forEach(function (cat) {
     var b = document.createElement('button');
     b.type = 'button';
     b.className = 'chip' + (cat === '全部' ? ' active' : '');
@@ -72,31 +196,57 @@
     return { '免费': 'free', '免费试用': 'trial', '付费': 'paid', '开源': 'oss' }[p] || '';
   }
 
+  function badgesHTML(e) {
+    var s = '<span class="badge ' + priceClass(e.p) + '">' + e.p + '</span>';
+    if (e.v) s += '<span class="badge verified">✓ 已验证</span>';
+    return s;
+  }
+
+  function tagsHTML(e) {
+    return (e.t || []).map(function (t) { return '<span class="tag">' + t + '</span>'; }).join('');
+  }
+
+  function matches(e, q) {
+    if (!q) return true;
+    var hay = (e.n + ' ' + e.d + ' ' + (e.t || []).join(' ') + ' ' + e.u).toLowerCase();
+    return hay.indexOf(q) !== -1;
+  }
+
+  function showcaseHTML(e) {
+    var note = e.note ? '<p class="sc-note">' + e.note + '</p>' : '';
+    return '<article class="sc-card reveal">' +
+      '<p class="sc-eyebrow">' + badgesHTML(e) + '</p>' +
+      '<h3 class="sc-name"><a href="' + e.u + '" target="_blank" rel="noopener">' + e.n + '</a></h3>' +
+      '<p class="sc-desc">' + e.d + '</p>' + note +
+      '<div class="sc-bottom"><div class="tags">' + tagsHTML(e) + '</div>' +
+      '<a class="sc-cta" href="' + e.u + '" target="_blank" rel="noopener">去使用&nbsp;›</a></div>' +
+      '</article>';
+  }
+
   function cardHTML(e) {
-    var badges = '<span class="badge ' + priceClass(e.p) + '">' + e.p + '</span>';
-    if (e.v) badges += '<span class="badge verified">✓ 已验证</span>';
-    var tags = (e.t || []).map(function (t) { return '<span class="tag">' + t + '</span>'; }).join('');
     var note = e.note ? '<p class="note">' + e.note + '</p>' : '';
-    return '<article class="card">' +
+    return '<article class="card reveal">' +
       '<div class="card-top"><a class="name" href="' + e.u + '" target="_blank" rel="noopener">' + e.n + '</a>' +
       '<span class="cat">' + e.c + '</span></div>' +
       '<p class="desc">' + e.d + '</p>' + note +
-      '<div class="card-bottom"><div class="tags">' + tags + '</div>' +
-      '<a class="visit" href="' + e.u + '" target="_blank" rel="noopener">访问 →</a></div>' +
-      '<div class="badges">' + badges + '</div>' +
+      '<div class="card-bottom"><div class="tags">' + tagsHTML(e) + '</div>' +
+      '<a class="visit" href="' + e.u + '" target="_blank" rel="noopener">访问&nbsp;›</a></div>' +
+      '<div class="badges">' + badgesHTML(e) + '</div>' +
       '</article>';
   }
 
   function render() {
     var q = searchInput.value.trim().toLowerCase();
-    var list = DATA.filter(function (e) {
+
+    // 搜索同时过滤免费资源展区；无匹配时整区收起
+    var shown = freeResources.filter(function (e) { return matches(e, q); });
+    showcase.innerHTML = shown.map(showcaseHTML).join('');
+    showcaseSection.style.display = shown.length ? '' : 'none';
+
+    var list = tools.filter(function (e) {
       if (activeCat !== '全部' && e.c !== activeCat) return false;
       if (freeOnlyBox.checked && !(e.p === '免费' || e.p === '开源')) return false;
-      if (q) {
-        var hay = (e.n + ' ' + e.d + ' ' + (e.t || []).join(' ') + ' ' + e.u).toLowerCase();
-        if (hay.indexOf(q) === -1) return false;
-      }
-      return true;
+      return matches(e, q);
     });
     grid.innerHTML = list.map(cardHTML).join('');
     countEl.textContent = '共 ' + list.length + ' 个结果' + (activeCat !== '全部' ? ' · 分类：' + activeCat : '');
@@ -106,6 +256,135 @@
   searchInput.addEventListener('input', render);
   freeOnlyBox.addEventListener('change', render);
   render();
+})();
+</script>
+<div class="toast" id="toast" role="status" aria-live="polite">支付功能即将开通</div>
+
+<script>
+(function () {
+  // ---------- 提示词库 ----------
+  var grid = document.getElementById('promptGrid');
+  var chipsBox = document.getElementById('promptChips');
+  var searchInput = document.getElementById('promptSearch');
+  var countEl = document.getElementById('promptCount');
+  var emptyEl = document.getElementById('promptEmpty');
+  var moreBtn = document.getElementById('promptMore');
+  var activeCat = '全部';
+  var limit = 48;
+  var PAGE = 48;
+
+  var byId = {};
+  PROMPTS.forEach(function (p) { byId[p.id] = p; });
+
+  // 分类配图渐变（图片加载失败时兜底显示）
+  var GRADIENTS = [
+    ['#f6d365', '#fda085'], ['#a8c0ff', '#3f2b96'], ['#fbc2eb', '#a6c1ee'],
+    ['#84fab0', '#8fd3f4'], ['#ff9a9e', '#fecfef'], ['#a18cd1', '#fbc2eb'],
+    ['#ffecd2', '#fcb69f'], ['#667eea', '#764ba2'], ['#89f7fe', '#66a6ff'],
+    ['#f093fb', '#f5576c'], ['#43e97b', '#38f9d7'], ['#fa709a', '#fee140'],
+    ['#30cfd0', '#330867'], ['#5ee7df', '#b490ca']
+  ];
+  function coverStyle(cat) {
+    var i = PROMPT_CATEGORIES.indexOf(cat);
+    if (i < 0) i = 0;
+    var g = GRADIENTS[i % GRADIENTS.length];
+    var img = PROMPT_COVERS[cat] || '';
+    return 'background-image: url(\'' + img + '\'), linear-gradient(135deg, ' + g[0] + ', ' + g[1] + ');';
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  var cats = ['全部'].concat(PROMPT_CATEGORIES);
+  cats.forEach(function (cat) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip' + (cat === '全部' ? ' active' : '');
+    b.textContent = cat;
+    b.addEventListener('click', function () {
+      activeCat = cat;
+      limit = PAGE;
+      Array.prototype.forEach.call(chipsBox.children, function (c) { c.classList.remove('active'); });
+      b.classList.add('active');
+      render();
+    });
+    chipsBox.appendChild(b);
+  });
+
+  function cardHTML(p) {
+    var meta = [];
+    if (p.aspect) meta.push(p.aspect);
+    if (p.seconds) meta.push(p.seconds + '秒');
+    if (!meta.length) meta.push(p.source === 'prompt-engineering-guide' ? '通用 · 英文' : '视频');
+    var src = p.url ? '<a class="p-src" href="' + p.url + '" target="_blank" rel="noopener">原文 ↗</a>' : '';
+    return '<article class="p-card reveal">' +
+      '<div class="p-cover" style="' + coverStyle(p.cat) + '"><span class="p-cat">' + esc(p.cat) + '</span></div>' +
+      '<div class="p-body">' +
+      '<h3 class="p-title">' + esc(p.title) + '</h3>' +
+      '<p class="p-meta">' + meta.join(' · ') + '</p>' +
+      '<p class="p-text">' + esc(p.text) + '</p>' +
+      '<div class="p-foot"><button type="button" class="copy-btn" data-id="' + p.id + '">复制提示词</button>' + src + '</div>' +
+      '</div></article>';
+  }
+
+  function render() {
+    var q = searchInput.value.trim().toLowerCase();
+    var list = PROMPTS.filter(function (p) {
+      if (activeCat !== '全部' && p.cat !== activeCat) return false;
+      if (!q) return true;
+      return (p.title + ' ' + p.cat + ' ' + p.text).toLowerCase().indexOf(q) !== -1;
+    });
+    var shown = list.slice(0, limit);
+    grid.innerHTML = shown.map(cardHTML).join('');
+    countEl.textContent = '共 ' + list.length + ' 条提示词' +
+      (list.length > shown.length ? ' · 已显示 ' + shown.length + ' 条' : '') +
+      (activeCat !== '全部' ? ' · 分类：' + activeCat : '');
+    emptyEl.hidden = list.length > 0;
+    moreBtn.hidden = list.length <= shown.length;
+  }
+
+  searchInput.addEventListener('input', function () { limit = PAGE; render(); });
+  moreBtn.addEventListener('click', function () { limit += PAGE; render(); });
+
+  grid.addEventListener('click', function (ev) {
+    var btn = ev.target.closest ? ev.target.closest('.copy-btn') : null;
+    if (!btn) return;
+    var p = byId[btn.getAttribute('data-id')];
+    if (!p) return;
+    function done() {
+      btn.textContent = '已复制 ✓';
+      btn.classList.add('done');
+      setTimeout(function () { btn.textContent = '复制提示词'; btn.classList.remove('done'); }, 1800);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(p.text).then(done, function () { fallbackCopy(p.text, done); });
+    } else {
+      fallbackCopy(p.text, done);
+    }
+  });
+  function fallbackCopy(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { /* 复制失败时保持按钮不变 */ }
+    document.body.removeChild(ta);
+  }
+  render();
+
+  // ---------- SVIP 定价：占位流程（支付后端另做，按钮只提示） ----------
+  var toast = document.getElementById('toast');
+  var toastTimer = null;
+  function showToast() {
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2600);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.price-btn'), function (b) {
+    b.addEventListener('click', showToast);
+  });
 })();
 </script>
 </body>
