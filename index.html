@@ -19,6 +19,9 @@
       <a href="#prompts" data-i18n="nav.prompts">提示词库</a>
       <a href="#pricing">SVIP</a>
       <a href="https://github.com/dannykocko/ai-nav-site" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="nav-actions">
+      <button type="button" class="nav-auth" id="navAuth" data-i18n="pay.login">登录</button>
       <select id="langSelect" class="lang-select" aria-label="Language / 语言"></select>
     </div>
   </div>
@@ -89,8 +92,9 @@
     <div class="section-head">
       <p class="eyebrow" data-i18n="pricing.eyebrow">SVIP 会员</p>
       <h2 data-i18n="pricing.h2">价格简单，按需开通。</h2>
-      <p class="section-sub" data-i18n="pricing.sub">解锁 AI 与 Agent 搭建、使用、落地业务的最新最全教程课程，持续更新。四档可选，支付功能即将开通。</p>
+      <p class="section-sub" data-i18n="pricing.sub">解锁 AI 与 Agent 搭建、使用、落地业务的最新最全教程课程，持续更新。四档可选，支持 USDT 支付，到账自动开通。</p>
     </div>
+    <div class="member-bar" id="memberBar"></div>
     <div class="pricing-grid">
       <article class="price-card">
         <h3 data-i18n="pricing.plan.month">一个月</h3>
@@ -102,7 +106,7 @@
           <li data-i18n="pricing.benefit3">落地业务实战课程</li>
           <li data-i18n="pricing.benefit4">持续更新</li>
         </ul>
-        <button type="button" class="btn-primary price-btn" data-i18n="pricing.btn">立即开通</button>
+        <button type="button" class="btn-primary price-btn" data-plan="month" data-i18n="pricing.btn">立即开通</button>
       </article>
       <article class="price-card">
         <h3 data-i18n="pricing.plan.quarter">三个月</h3>
@@ -114,7 +118,7 @@
           <li data-i18n="pricing.benefit3">落地业务实战课程</li>
           <li data-i18n="pricing.benefit4">持续更新</li>
         </ul>
-        <button type="button" class="btn-primary price-btn" data-i18n="pricing.btn">立即开通</button>
+        <button type="button" class="btn-primary price-btn" data-plan="quarter" data-i18n="pricing.btn">立即开通</button>
       </article>
       <article class="price-card">
         <h3 data-i18n="pricing.plan.half">半年</h3>
@@ -126,7 +130,7 @@
           <li data-i18n="pricing.benefit3">落地业务实战课程</li>
           <li data-i18n="pricing.benefit4">持续更新</li>
         </ul>
-        <button type="button" class="btn-primary price-btn" data-i18n="pricing.btn">立即开通</button>
+        <button type="button" class="btn-primary price-btn" data-plan="half" data-i18n="pricing.btn">立即开通</button>
       </article>
       <article class="price-card featured">
         <span class="best-badge" data-i18n="pricing.best">最划算</span>
@@ -139,7 +143,7 @@
           <li data-i18n="pricing.benefit3">落地业务实战课程</li>
           <li data-i18n="pricing.benefit4">持续更新</li>
         </ul>
-        <button type="button" class="btn-primary price-btn" data-i18n="pricing.btn">立即开通</button>
+        <button type="button" class="btn-primary price-btn" data-plan="year" data-i18n="pricing.btn">立即开通</button>
       </article>
     </div>
   </div>
@@ -281,7 +285,40 @@
   if (window.I18N) I18N.onChange(function () { buildChips(); render(); });
 })();
 </script>
-<div class="toast" id="toast" role="status" aria-live="polite" data-i18n="toast">支付功能即将开通</div>
+<div class="toast" id="toast" role="status" aria-live="polite" data-i18n="toast">已复制 ✓</div>
+
+<!-- SVIP 登录 / 注册弹窗 -->
+<div class="modal" id="authModal" hidden>
+  <div class="modal-backdrop" data-close-auth></div>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button type="button" class="modal-x" data-close-auth aria-label="×">×</button>
+    <h3 data-i18n="pay.authTitle">登录 / 注册 SVIP</h3>
+    <p class="modal-sub" data-i18n="pay.authSub">登录后即可用 USDT 开通会员。</p>
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" data-mode="login" data-i18n="pay.login">登录</button>
+      <button type="button" class="auth-tab" data-mode="register" data-i18n="pay.register">注册</button>
+    </div>
+    <form id="authForm">
+      <label><span data-i18n="pay.email">邮箱</span><input type="email" id="authEmail" required autocomplete="email" data-i18n-ph="pay.emailPh" placeholder="输入邮箱"></label>
+      <label><span data-i18n="pay.password">密码</span><input type="password" id="authPassword" required minlength="8" autocomplete="current-password" data-i18n-ph="pay.passwordPh" placeholder="至少 8 位"></label>
+      <p class="form-err" id="authErr" hidden></p>
+      <button type="submit" class="btn-primary auth-submit" id="authSubmit" data-i18n="pay.loginBtn">登录</button>
+    </form>
+    <p class="auth-switch"><span id="authSwitchText" data-i18n="pay.noAccount">还没有账号？</span> <button type="button" class="link-btn" id="authSwitch" data-i18n="pay.register">注册</button></p>
+  </div>
+</div>
+
+<!-- SVIP 付款弹窗 -->
+<div class="modal" id="orderModal" hidden>
+  <div class="modal-backdrop" data-close-order></div>
+  <div class="modal-card order-card" role="dialog" aria-modal="true">
+    <button type="button" class="modal-x" data-close-order aria-label="×">×</button>
+    <h3 data-i18n="pay.orderTitle">扫码付款</h3>
+    <div id="orderBody"></div>
+  </div>
+</div>
+
+<script src="pay.js"></script>
 
 <script>
 (function () {
@@ -408,18 +445,6 @@
   buildChips();
   render();
   if (window.I18N) I18N.onChange(function () { buildChips(); render(); });
-
-  // ---------- SVIP 定价：占位流程（支付后端另做，按钮只提示） ----------
-  var toast = document.getElementById('toast');
-  var toastTimer = null;
-  function showToast() {
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2600);
-  }
-  Array.prototype.forEach.call(document.querySelectorAll('.price-btn'), function (b) {
-    b.addEventListener('click', showToast);
-  });
 })();
 </script>
 </body>
