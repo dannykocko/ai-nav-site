@@ -22,6 +22,9 @@
 
 * { box-sizing: border-box; }
 
+/* hidden 属性必须始终隐藏元素：表单 label 等规则会设 display，覆盖浏览器默认的 display:none */
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; }
 
 body {
