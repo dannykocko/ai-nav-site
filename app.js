@@ -220,11 +220,11 @@ const CATEGORIES = ["全部", "免费资源", "生图", "生视频", "写作对�
 
   // 分类强调色（与 styles.css 的 --cat-* 同一份色值）
   var CAT_COLORS = {
-    '免费资源': '#CDBD09', '生图': '#8f7a39', '生视频': '#a67758',
+    '免费资源': '#D97706', '生图': '#8f7a39', '生视频': '#a67758',
     '写作对话': '#667c7a', '编程': '#967b32', '音频音乐': '#558077',
     '搜索办公': '#687a8b', '设计': '#a26d40', '效率': '#788344'
   };
-  function catColor(c) { return CAT_COLORS[c] || '#CDBD09'; }
+  function catColor(c) { return CAT_COLORS[c] || '#D97706'; }
 
   // 每个分类一张小插画（内联 SVG 线稿，currentColor = 分类色）
   var CAT_VISUALS = {
@@ -275,11 +275,11 @@ const CATEGORIES = ["全部", "免费资源", "生图", "生视频", "写作对�
     var freeRes = freeResources.length, toolsN = tools.length;
     var fp = Math.round(freeRes / total * 100);
     document.getElementById('splitBar').innerHTML =
-      '<div class="split-seg" style="width:' + fp + '%;background:#CDBD09">' + freeRes + '</div>' +
-      '<div class="split-seg" style="width:' + (100 - fp) + '%;background:#252525">' + toolsN + '</div>';
+      '<div class="split-seg" style="width:' + fp + '%;background:#D97706">' + freeRes + '</div>' +
+      '<div class="split-seg" style="width:' + (100 - fp) + '%;background:#111111">' + toolsN + '</div>';
     document.getElementById('splitLabels').innerHTML =
-      '<div class="legend-item"><span class="dot" style="background:#CDBD09"></span><span class="lg-name">' + I18N.cat('免费资源') + '</span><span class="lg-n">' + freeRes + '</span></div>' +
-      '<div class="legend-item"><span class="dot" style="background:#252525"></span><span class="lg-name">' + I18N.t('nav.tools') + '</span><span class="lg-n">' + toolsN + '</span></div>';
+      '<div class="legend-item"><span class="dot" style="background:#D97706"></span><span class="lg-name">' + I18N.cat('免费资源') + '</span><span class="lg-n">' + freeRes + '</span></div>' +
+      '<div class="legend-item"><span class="dot" style="background:#111111"></span><span class="lg-name">' + I18N.t('nav.tools') + '</span><span class="lg-n">' + toolsN + '</span></div>';
 
     var pcats = PROMPT_CATEGORIES.map(function (c) {
       return { c: c, n: PROMPTS.filter(function (p) { return p.cat === c; }).length };

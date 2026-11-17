@@ -32,11 +32,11 @@ const PROMPT_COVERS = {};
 
   // 分类配图渐变（图片加载失败时兜底显示）
   var GRADIENTS = [
-    ['#FEFBF3', '#e7ddb0'], ['#FFFDF7', '#ded6c2'], ['#FEFBF3', '#d8d0bd'],
-    ['#FFFDF7', '#e8dfc6'], ['#FEFBF3', '#d9d4ca'], ['#FFFDF7', '#e5d9ad'],
-    ['#FEFBF3', '#dcd3c7'], ['#FFFDF7', '#e9dfb3'], ['#FEFBF3', '#d9d4ca'],
-    ['#FFFDF7', '#e6dbbb'], ['#FEFBF3', '#ddd4bf'], ['#FFFDF7', '#e8dfc6'],
-    ['#FEFBF3', '#d9d4ca'], ['#FFFDF7', '#e5dcbd']
+    ['#FFFFFF', '#DBEAFE'], ['#F9FAFB', '#E5E7EB'], ['#FFFFFF', '#DBEAFE'],
+    ['#F9FAFB', '#E5E7EB'], ['#FFFFFF', '#E5E7EB'], ['#FFFFFF', '#DBEAFE'],
+    ['#FFFFFF', '#E5E7EB'], ['#F9FAFB', '#E5E7EB'], ['#FFFFFF', '#E5E7EB'],
+    ['#FFFFFF', '#DBEAFE'], ['#F9FAFB', '#E5E7EB'], ['#F9FAFB', '#E5E7EB'],
+    ['#FFFFFF', '#E5E7EB'], ['#FFFFFF', '#DBEAFE']
   ];
   function coverStyle(cat) {
     var i = PROMPT_CATEGORIES.indexOf(cat);
