@@ -29,6 +29,38 @@
 </nav>
 
 <header class="hero">
+  <svg class="hero-art" viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.55"/>
+        <stop offset="55%" stop-color="#3b82f6" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.8"/>
+        <stop offset="55%" stop-color="#38bdf8" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#f472b6" stop-opacity="0.8"/>
+      </linearGradient>
+    </defs>
+    <circle cx="600" cy="250" r="330" fill="none" stroke="url(#ringGrad)" stroke-width="1" opacity="0.5"/>
+    <circle cx="600" cy="250" r="250" fill="none" stroke="url(#ringGrad)" stroke-width="1" opacity="0.35"/>
+    <circle cx="600" cy="250" r="170" fill="none" stroke="url(#ringGrad)" stroke-width="1" opacity="0.25"/>
+    <circle cx="600" cy="250" r="120" fill="url(#orbGlow)"/>
+    <circle cx="600" cy="250" r="52" fill="#8b5cf6" opacity="0.85"/>
+    <circle cx="600" cy="250" r="30" fill="#c4b5fd"/>
+    <circle cx="850" cy="80" r="4" fill="#38bdf8"/>
+    <circle cx="380" cy="120" r="3" fill="#f472b6"/>
+    <circle cx="930" cy="300" r="3" fill="#a78bfa"/>
+    <circle cx="300" cy="330" r="4" fill="#38bdf8"/>
+    <circle cx="770" cy="430" r="3" fill="#f472b6"/>
+    <circle cx="470" cy="440" r="2.5" fill="#a3e635"/>
+    <circle cx="600" cy="0" r="3" fill="#fbbf24"/>
+    <circle cx="850" cy="80" r="9" fill="none" stroke="#38bdf8" stroke-width="1" opacity="0.6"/>
+    <circle cx="300" cy="330" r="9" fill="none" stroke="#38bdf8" stroke-width="1" opacity="0.6"/>
+    <line x1="600" y1="250" x2="850" y2="80" stroke="#38bdf8" stroke-width="1" opacity="0.25"/>
+    <line x1="600" y1="250" x2="300" y2="330" stroke="#f472b6" stroke-width="1" opacity="0.25"/>
+    <line x1="600" y1="250" x2="930" y2="300" stroke="#a78bfa" stroke-width="1" opacity="0.2"/>
+  </svg>
   <p class="hero-eyebrow" data-i18n="hero.eyebrow">AI 资源导航</p>
   <h1 data-i18n="hero.h1">免费 AI，一站找全。</h1>
   <p class="hero-sub" data-i18n="hero.sub">人工核实的免费大模型、免费 API 与免费 GPU，再加 72 款热门 AI 工具——生图、生视频、写作、编程、音频、搜索、设计、效率，全部免费直达。</p>
@@ -38,6 +70,35 @@
     <a class="btn-link" href="#tools" data-i18n="hero.ctaLink">浏览全部工具&nbsp;›</a>
   </div>
 </header>
+
+<section class="glance" id="glance" aria-label="一眼看全站">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-i18n="stats.eyebrow">一眼看全站</p>
+      <h2 data-i18n="stats.h2">全站数据，一图看懂。</h2>
+      <p class="section-sub" data-i18n="stats.sub">以下图表由本站数据实时生成。</p>
+    </div>
+    <div class="glance-tiles" id="glanceTiles"></div>
+    <div class="chart-grid">
+      <div class="chart-panel">
+        <h3 class="chart-title" data-i18n="stats.byCat">资源按分类</h3>
+        <div class="donut-flex">
+          <div class="donut-wrap" id="donutWrap"></div>
+          <div class="donut-legend" id="donutLegend"></div>
+        </div>
+      </div>
+      <div class="chart-panel">
+        <h3 class="chart-title" data-i18n="stats.freeVsTools">免费资源 vs 热门工具</h3>
+        <div class="split-bar" id="splitBar"></div>
+        <div class="split-labels" id="splitLabels"></div>
+      </div>
+      <div class="chart-panel wide">
+        <h3 class="chart-title" data-i18n="stats.promptsByCat">提示词按分类</h3>
+        <div class="bars" id="promptBars"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="showcase" id="free" aria-label="免费资源">
   <div class="wrap">
@@ -102,7 +163,7 @@
     </div>
     <div class="member-bar" id="memberBar"></div>
     <div class="pricing-grid">
-      <article class="price-card">
+      <article class="price-card plan-month">
         <h3 data-i18n="pricing.plan.month">一个月</h3>
         <p class="price"><span class="currency">$</span><span class="price-amount">9.9</span></p>
         <p class="per" data-per-plan="month"></p>
@@ -114,7 +175,7 @@
         </ul>
         <button type="button" class="btn-primary price-btn" data-plan="month" data-i18n="pricing.btn">立即开通</button>
       </article>
-      <article class="price-card">
+      <article class="price-card plan-quarter">
         <h3 data-i18n="pricing.plan.quarter">三个月</h3>
         <p class="price"><span class="currency">$</span><span class="price-amount">19.9</span></p>
         <p class="per" data-per-plan="quarter"></p>
@@ -126,7 +187,7 @@
         </ul>
         <button type="button" class="btn-primary price-btn" data-plan="quarter" data-i18n="pricing.btn">立即开通</button>
       </article>
-      <article class="price-card">
+      <article class="price-card plan-half">
         <h3 data-i18n="pricing.plan.half">半年</h3>
         <p class="price"><span class="currency">$</span><span class="price-amount">29.9</span></p>
         <p class="per" data-per-plan="half"></p>
@@ -138,7 +199,7 @@
         </ul>
         <button type="button" class="btn-primary price-btn" data-plan="half" data-i18n="pricing.btn">立即开通</button>
       </article>
-      <article class="price-card featured">
+      <article class="price-card featured plan-year">
         <span class="best-badge" data-i18n="pricing.best">最划算</span>
         <h3 data-i18n="pricing.plan.year">一年</h3>
         <p class="price"><span class="currency">$</span><span class="price-amount">69.9</span></p>
@@ -151,7 +212,7 @@
         </ul>
         <button type="button" class="btn-primary price-btn" data-plan="year" data-i18n="pricing.btn">立即开通</button>
       </article>
-      <article class="price-card">
+      <article class="price-card plan-lifetime">
         <h3 data-i18n="pricing.plan.lifetime">永久</h3>
         <p class="price"><span class="currency">$</span><span class="price-amount">99</span></p>
         <p class="per" data-per-plan="lifetime"></p>
@@ -191,6 +252,79 @@
   var statsEl = document.getElementById('stats');
   var activeCat = '全部';
 
+  // 分类强调色（与 styles.css 的 --cat-* 同一份色值）
+  var CAT_COLORS = {
+    '免费资源': '#34d399', '生图': '#a78bfa', '生视频': '#f472b6',
+    '写作对话': '#38bdf8', '编程': '#fbbf24', '音频音乐': '#2dd4bf',
+    '搜索办公': '#818cf8', '设计': '#fb923c', '效率': '#a3e635'
+  };
+  function catColor(c) { return CAT_COLORS[c] || '#8b5cf6'; }
+
+  // 每个分类一张小插画（内联 SVG 线稿，currentColor = 分类色）
+  var CAT_VISUALS = {
+    '免费资源': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="42" y="28" width="36" height="26" rx="3"/><path d="M42 36h36M60 28v26"/><path d="M60 28c-9 0-13-4-13-9s5-7 9-4c3 2 3 6 4 13zm0 0c9 0 13-4 13-9s-5-7-9-4c-3 2-3 6-4 13z"/><path d="M24 12l2 4.5 4.5 2-4.5 2-2 4.5-2-4.5-4.5-2 4.5-2z" fill="currentColor" stroke="none"/><path d="M96 10l1.5 3.5 3.5 1.5-3.5 1.5L96 20l-1.5-3.5L91 15l3.5-1.5z" fill="currentColor" stroke="none"/></svg>',
+    '生图': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="28" y="10" width="64" height="44" rx="6"/><circle cx="47" cy="24" r="5"/><path d="M28 46l14-15 12 12 10-8 12 11 4-4 12 12"/></svg>',
+    '生视频': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="26" y="12" width="68" height="40" rx="8"/><path d="M52 24l18 8-18 8z" fill="currentColor" stroke="none"/><path d="M34 18v28M86 18v28" opacity="0.45"/></svg>',
+    '写作对话': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 14h60a6 6 0 016 6v20a6 6 0 01-6 6H55l-13 10v-10H30a6 6 0 01-6-6V20a6 6 0 016-6z"/><path d="M36 26h48M36 36h30"/></svg>',
+    '编程': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M44 20l-14 12 14 12M76 20l14 12-14 12M67 14l-14 36"/></svg>',
+    '音频音乐': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M34 26v12M44 18v28M54 24v16M64 14v36M74 22v20M84 28v8"/></svg>',
+    '搜索办公': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="30" r="14"/><path d="M60 40l12 12"/><path d="M84 16h12M84 24h12M84 32h8" opacity="0.55"/></svg>',
+    '设计': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M60 10l14 22-14 26-14-26z"/><circle cx="60" cy="26" r="4"/><path d="M46 32l-8 20 10-4M74 32l8 20-10-4"/></svg>',
+    '效率': '<svg viewBox="0 0 120 64" fill="currentColor" stroke="none"><path d="M66 8L40 38h14l-6 18 26-30H60l6-18z"/></svg>'
+  };
+  function catVisual(c) { return CAT_VISUALS[c] || CAT_VISUALS['效率']; }
+
+  // 一眼看全站：数字卡片 + 环形图 + 免费/工具分段条 + 提示词条形图（全部由数据实时算出）
+  function renderGlance() {
+    var total = DATA.length;
+    var verified = DATA.filter(function (e) { return e.v; }).length;
+    var freeN = DATA.filter(function (e) { return e.p === '免费' || e.p === '开源'; }).length;
+    var tiles = [
+      { n: total, label: I18N.t('stats.tileTotal') },
+      { n: verified, label: I18N.t('stats.tileVerified') },
+      { n: freeN, label: I18N.t('stats.tileFree') },
+      { n: PROMPTS.length, label: I18N.t('stats.tilePrompts') }
+    ];
+    document.getElementById('glanceTiles').innerHTML = tiles.map(function (t) {
+      return '<div class="tile"><div class="tile-num">' + t.n + '</div><div class="tile-label">' + t.label + '</div></div>';
+    }).join('');
+
+    var cats = CATEGORIES.filter(function (c) { return c !== '全部'; });
+    var counts = cats.map(function (c) { return DATA.filter(function (e) { return e.c === c; }).length; });
+    var R = 70, CIRC = 2 * Math.PI * R, offset = 0;
+    var segs = counts.map(function (n, i) {
+      var len = n / total * CIRC;
+      var s = '<circle cx="90" cy="90" r="' + R + '" fill="none" stroke="' + catColor(cats[i]) + '" stroke-width="22" stroke-dasharray="' + Math.max(len - 2, 0).toFixed(1) + ' ' + CIRC.toFixed(1) + '" stroke-dashoffset="' + (-offset).toFixed(1) + '"/>';
+      offset += len;
+      return s;
+    }).join('');
+    document.getElementById('donutWrap').innerHTML =
+      '<svg width="180" height="180" viewBox="0 0 180 180">' + segs + '</svg>' +
+      '<div class="donut-center"><div class="donut-total">' + total + '</div><div class="donut-label">' + I18N.t('stats.tileTotal') + '</div></div>';
+    document.getElementById('donutLegend').innerHTML = cats.map(function (c, i) {
+      return '<div class="legend-item"><span class="dot" style="background:' + catColor(c) + '"></span><span class="lg-name">' + I18N.cat(c) + '</span><span class="lg-n">' + counts[i] + '</span></div>';
+    }).join('');
+
+    var freeRes = freeResources.length, toolsN = tools.length;
+    var fp = Math.round(freeRes / total * 100);
+    document.getElementById('splitBar').innerHTML =
+      '<div class="split-seg" style="width:' + fp + '%;background:#34d399">' + freeRes + '</div>' +
+      '<div class="split-seg" style="width:' + (100 - fp) + '%;background:#8b5cf6">' + toolsN + '</div>';
+    document.getElementById('splitLabels').innerHTML =
+      '<div class="legend-item"><span class="dot" style="background:#34d399"></span><span class="lg-name">' + I18N.cat('免费资源') + '</span><span class="lg-n">' + freeRes + '</span></div>' +
+      '<div class="legend-item"><span class="dot" style="background:#8b5cf6"></span><span class="lg-name">' + I18N.t('nav.tools') + '</span><span class="lg-n">' + toolsN + '</span></div>';
+
+    var pcats = PROMPT_CATEGORIES.map(function (c) {
+      return { c: c, n: PROMPTS.filter(function (p) { return p.cat === c; }).length };
+    }).sort(function (a, b) { return b.n - a.n; });
+    var max = pcats[0].n;
+    document.getElementById('promptBars').innerHTML = pcats.map(function (p) {
+      return '<div class="bar-row"><span class="bar-label">' + I18N.cat(p.c) + '</span>' +
+        '<div class="bar-track"><div class="bar-fill" style="width:' + Math.round(p.n / max * 100) + '%"></div></div>' +
+        '<span class="bar-count">' + p.n + '</span></div>';
+    }).join('');
+  }
+
   // 给每条数据挂上在 DATA 里的下标，供 i18n 查翻译
   DATA.forEach(function (e, i) { e._idx = i; });
 
@@ -210,7 +344,9 @@
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'chip' + (cat === activeCat ? ' active' : '');
-      b.textContent = I18N.cat(cat);
+      b.style.setProperty('--cat', catColor(cat));
+      b.innerHTML = '<span class="chip-dot"></span>';
+      b.appendChild(document.createTextNode(I18N.cat(cat)));
       b.addEventListener('click', function () {
         activeCat = cat;
         Array.prototype.forEach.call(chipsBox.children, function (c) { c.classList.remove('active'); });
@@ -255,25 +391,29 @@
 
   function showcaseHTML(e) {
     var note = noteOf(e) ? '<p class="sc-note">' + noteOf(e) + '</p>' : '';
-    return '<article class="sc-card reveal">' +
+    return '<article class="sc-card reveal" style="--cat:' + catColor(e.c) + '">' +
+      '<div class="sc-visual">' + catVisual(e.c) + '</div>' +
+      '<div class="sc-body">' +
       '<p class="sc-eyebrow">' + badgesHTML(e) + '</p>' +
       '<h3 class="sc-name"><a href="' + e.u + '" target="_blank" rel="noopener">' + e.n + '</a></h3>' +
       '<p class="sc-desc">' + descOf(e) + '</p>' + note +
       '<div class="sc-bottom"><div class="tags">' + tagsHTML(e) + '</div>' +
       '<a class="sc-cta" href="' + e.u + '" target="_blank" rel="noopener">' + I18N.t('tools.use') + '</a></div>' +
-      '</article>';
+      '</div></article>';
   }
 
   function cardHTML(e) {
     var note = noteOf(e) ? '<p class="note">' + noteOf(e) + '</p>' : '';
-    return '<article class="card reveal">' +
+    return '<article class="card reveal" style="--cat:' + catColor(e.c) + '">' +
+      '<div class="card-visual">' + catVisual(e.c) + '</div>' +
+      '<div class="card-body">' +
       '<div class="card-top"><a class="name" href="' + e.u + '" target="_blank" rel="noopener">' + e.n + '</a>' +
       '<span class="cat">' + I18N.cat(e.c) + '</span></div>' +
       '<p class="desc">' + descOf(e) + '</p>' + note +
       '<div class="card-bottom"><div class="tags">' + tagsHTML(e) + '</div>' +
       '<a class="visit" href="' + e.u + '" target="_blank" rel="noopener">' + I18N.t('tools.visit') + '</a></div>' +
       '<div class="badges">' + badgesHTML(e) + '</div>' +
-      '</article>';
+      '</div></article>';
   }
 
   function render() {
@@ -300,7 +440,8 @@
   freeOnlyBox.addEventListener('change', render);
   buildChips();
   render();
-  if (window.I18N) I18N.onChange(function () { buildChips(); render(); });
+  renderGlance();
+  if (window.I18N) I18N.onChange(function () { buildChips(); render(); renderGlance(); });
 })();
 </script>
 <div class="toast" id="toast" role="status" aria-live="polite" data-i18n="toast">已复制 ✓</div>
