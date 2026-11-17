@@ -8,19 +8,137 @@ const PROMPTS = [{"id": "MV001", "title": "午后居家·落地镜与黑猫", "c
 
 const PROMPT_CATEGORIES = ["多镜头卡点（参考图模板）", "男友 POV", "自拍 / Vlog", "舞蹈", "时尚人像", "转场 / 变装", "古风 / 历史", "奇幻 / 动画 CG", "纪实 / 风光", "ASMR", "电影感 / 剧情", "长视频 / 多段脚本", "一句话 / 对话式", "通用提示词"];
 
-const PROMPT_COVERS = {
- "多镜头卡点（参考图模板）": "assets/cover-01.jpg",
- "男友 POV": "assets/cover-02.jpg",
- "自拍 / Vlog": "assets/cover-03.jpg",
- "舞蹈": "assets/cover-04.jpg",
- "时尚人像": "assets/cover-05.jpg",
- "转场 / 变装": "assets/cover-06.jpg",
- "古风 / 历史": "assets/cover-07.jpg",
- "奇幻 / 动画 CG": "assets/cover-08.jpg",
- "纪实 / 风光": "assets/cover-09.jpg",
- "ASMR": "assets/cover-10.jpg",
- "电影感 / 剧情": "assets/cover-11.jpg",
- "长视频 / 多段脚本": "assets/cover-12.jpg",
- "一句话 / 对话式": "assets/cover-13.jpg",
- "通用提示词": "assets/cover-14.jpg"
-};
+const PROMPT_COVERS = {};
+
+
+// Shared prompt library renderer.
+
+(function () {
+  function boot() {
+  // ---------- 提示词库 ----------
+  var grid = document.getElementById('promptGrid');
+  if (!grid) return;
+  var chipsBox = document.getElementById('promptChips');
+  var searchInput = document.getElementById('promptSearch');
+  var countEl = document.getElementById('promptCount');
+  var emptyEl = document.getElementById('promptEmpty');
+  var moreBtn = document.getElementById('promptMore');
+  var activeCat = '全部';
+  var limit = 48;
+  var PAGE = 48;
+
+  var byId = {};
+  PROMPTS.forEach(function (p) { byId[p.id] = p; });
+
+  // 分类配图渐变（图片加载失败时兜底显示）
+  var GRADIENTS = [
+    ['#FEFBF3', '#e7ddb0'], ['#FFFDF7', '#ded6c2'], ['#FEFBF3', '#d8d0bd'],
+    ['#FFFDF7', '#e8dfc6'], ['#FEFBF3', '#d9d4ca'], ['#FFFDF7', '#e5d9ad'],
+    ['#FEFBF3', '#dcd3c7'], ['#FFFDF7', '#e9dfb3'], ['#FEFBF3', '#d9d4ca'],
+    ['#FFFDF7', '#e6dbbb'], ['#FEFBF3', '#ddd4bf'], ['#FFFDF7', '#e8dfc6'],
+    ['#FEFBF3', '#d9d4ca'], ['#FFFDF7', '#e5dcbd']
+  ];
+  function coverStyle(cat) {
+    var i = PROMPT_CATEGORIES.indexOf(cat);
+    if (i < 0) i = 0;
+    var g = GRADIENTS[i % GRADIENTS.length];
+    return 'background-image: linear-gradient(135deg, ' + g[0] + ', ' + g[1] + ');';
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // 分类按钮（标签随语言切换重建，值始终用中文原名）
+  function buildChips() {
+    chipsBox.innerHTML = '';
+    var cats = ['全部'].concat(PROMPT_CATEGORIES);
+    cats.forEach(function (cat) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip' + (cat === activeCat ? ' active' : '');
+      b.textContent = I18N.cat(cat);
+      b.addEventListener('click', function () {
+        activeCat = cat;
+        limit = PAGE;
+        Array.prototype.forEach.call(chipsBox.children, function (c) { c.classList.remove('active'); });
+        b.classList.add('active');
+        render();
+      });
+      chipsBox.appendChild(b);
+    });
+  }
+
+  function titleOf(p) {
+    var tr = I18N.title(p.id);
+    return tr || p.title;
+  }
+
+  function cardHTML(p) {
+    var meta = [];
+    if (p.aspect) meta.push(p.aspect);
+    if (p.seconds) meta.push(p.seconds + I18N.t('prompts.seconds'));
+    if (!meta.length) meta.push(p.source === 'prompt-engineering-guide' ? I18N.t('prompts.metaGeneral') : I18N.t('prompts.metaVideo'));
+    var src = p.url ? '<a class="p-src" href="' + p.url + '" target="_blank" rel="noopener">' + I18N.t('prompts.src') + '</a>' : '';
+    return '<article class="p-card reveal">' +
+      '<div class="p-cover" style="' + coverStyle(p.cat) + '"><span class="p-cat">' + esc(I18N.cat(p.cat)) + '</span></div>' +
+      '<div class="p-body">' +
+      '<h3 class="p-title">' + esc(titleOf(p)) + '</h3>' +
+      '<p class="p-meta">' + meta.join(' · ') + '</p>' +
+      '<p class="p-text">' + esc(p.text) + '</p>' +
+      '<div class="p-foot"><button type="button" class="copy-btn" data-id="' + p.id + '">' + I18N.t('prompts.copy') + '</button>' + src + '</div>' +
+      '</div></article>';
+  }
+
+  function render() {
+    var q = searchInput.value.trim().toLowerCase();
+    var list = PROMPTS.filter(function (p) {
+      if (activeCat !== '全部' && p.cat !== activeCat) return false;
+      if (!q) return true;
+      var hay = (titleOf(p) + ' ' + p.title + ' ' + I18N.cat(p.cat) + ' ' + p.cat + ' ' + p.text).toLowerCase();
+      return hay.indexOf(q) !== -1;
+    });
+    var shown = list.slice(0, limit);
+    grid.innerHTML = shown.map(cardHTML).join('');
+    countEl.textContent = I18N.tf('prompts.count', { n: list.length }) +
+      (list.length > shown.length ? I18N.tf('prompts.countShown', { s: shown.length }) : '') +
+      (activeCat !== '全部' ? I18N.tf('prompts.countCat', { cat: I18N.cat(activeCat) }) : '');
+    emptyEl.hidden = list.length > 0;
+    moreBtn.hidden = list.length <= shown.length;
+  }
+
+  searchInput.addEventListener('input', function () { limit = PAGE; render(); });
+  moreBtn.addEventListener('click', function () { limit += PAGE; render(); });
+
+  grid.addEventListener('click', function (ev) {
+    var btn = ev.target.closest ? ev.target.closest('.copy-btn') : null;
+    if (!btn) return;
+    var p = byId[btn.getAttribute('data-id')];
+    if (!p) return;
+    function done() {
+      btn.textContent = I18N.t('prompts.copied');
+      btn.classList.add('done');
+      setTimeout(function () { btn.textContent = I18N.t('prompts.copy'); btn.classList.remove('done'); }, 1800);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(p.text).then(done, function () { fallbackCopy(p.text, done); });
+    } else {
+      fallbackCopy(p.text, done);
+    }
+  });
+  function fallbackCopy(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { /* 复制失败时保持按钮不变 */ }
+    document.body.removeChild(ta);
+  }
+  buildChips();
+  render();
+  if (window.I18N) I18N.onChange(function () { buildChips(); render(); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();

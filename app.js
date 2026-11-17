@@ -200,3 +200,219 @@ const DATA = [
 
 // 分类顺序（与筛选按钮一致）
 const CATEGORIES = ["全部", "免费资源", "生图", "生视频", "写作对话", "编程", "音频音乐", "搜索办公", "设计", "效率"];
+
+
+// Shared resource rendering across home, free, and tools pages.
+
+(function () {
+  function boot() {
+  function node(id) { return document.getElementById(id) || document.createElement('div'); }
+  var grid = node('grid');
+  var showcase = node('showcase');
+  var showcaseSection = node('free');
+  var chipsBox = node('chips');
+  var searchInput = node('search');
+  var freeOnlyBox = node('freeOnly');
+  var countEl = node('count');
+  var emptyEl = node('empty');
+  var statsEl = node('stats');
+  var activeCat = '全部';
+
+  // 分类强调色（与 styles.css 的 --cat-* 同一份色值）
+  var CAT_COLORS = {
+    '免费资源': '#CDBD09', '生图': '#8f7a39', '生视频': '#a67758',
+    '写作对话': '#667c7a', '编程': '#967b32', '音频音乐': '#558077',
+    '搜索办公': '#687a8b', '设计': '#a26d40', '效率': '#788344'
+  };
+  function catColor(c) { return CAT_COLORS[c] || '#CDBD09'; }
+
+  // 每个分类一张小插画（内联 SVG 线稿，currentColor = 分类色）
+  var CAT_VISUALS = {
+    '免费资源': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="42" y="28" width="36" height="26" rx="3"/><path d="M42 36h36M60 28v26"/><path d="M60 28c-9 0-13-4-13-9s5-7 9-4c3 2 3 6 4 13zm0 0c9 0 13-4 13-9s-5-7-9-4c-3 2-3 6-4 13z"/><path d="M24 12l2 4.5 4.5 2-4.5 2-2 4.5-2-4.5-4.5-2 4.5-2z" fill="currentColor" stroke="none"/><path d="M96 10l1.5 3.5 3.5 1.5-3.5 1.5L96 20l-1.5-3.5L91 15l3.5-1.5z" fill="currentColor" stroke="none"/></svg>',
+    '生图': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="28" y="10" width="64" height="44" rx="6"/><circle cx="47" cy="24" r="5"/><path d="M28 46l14-15 12 12 10-8 12 11 4-4 12 12"/></svg>',
+    '生视频': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="26" y="12" width="68" height="40" rx="8"/><path d="M52 24l18 8-18 8z" fill="currentColor" stroke="none"/><path d="M34 18v28M86 18v28" opacity="0.45"/></svg>',
+    '写作对话': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 14h60a6 6 0 016 6v20a6 6 0 01-6 6H55l-13 10v-10H30a6 6 0 01-6-6V20a6 6 0 016-6z"/><path d="M36 26h48M36 36h30"/></svg>',
+    '编程': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M44 20l-14 12 14 12M76 20l14 12-14 12M67 14l-14 36"/></svg>',
+    '音频音乐': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M34 26v12M44 18v28M54 24v16M64 14v36M74 22v20M84 28v8"/></svg>',
+    '搜索办公': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="30" r="14"/><path d="M60 40l12 12"/><path d="M84 16h12M84 24h12M84 32h8" opacity="0.55"/></svg>',
+    '设计': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M60 10l14 22-14 26-14-26z"/><circle cx="60" cy="26" r="4"/><path d="M46 32l-8 20 10-4M74 32l8 20-10-4"/></svg>',
+    '效率': '<svg viewBox="0 0 120 64" fill="currentColor" stroke="none"><path d="M66 8L40 38h14l-6 18 26-30H60l6-18z"/></svg>'
+  };
+  function catVisual(c) { return CAT_VISUALS[c] || CAT_VISUALS['效率']; }
+
+  // 一眼看全站：数字卡片 + 环形图 + 免费/工具分段条 + 提示词条形图（全部由数据实时算出）
+  function renderGlance() {
+    if (!document.getElementById('glanceTiles')) return;
+    var total = DATA.length;
+    var verified = DATA.filter(function (e) { return e.v; }).length;
+    var freeN = DATA.filter(function (e) { return e.p === '免费' || e.p === '开源'; }).length;
+    var tiles = [
+      { n: total, label: I18N.t('stats.tileTotal') },
+      { n: verified, label: I18N.t('stats.tileVerified') },
+      { n: freeN, label: I18N.t('stats.tileFree') },
+      { n: PROMPTS.length, label: I18N.t('stats.tilePrompts') }
+    ];
+    document.getElementById('glanceTiles').innerHTML = tiles.map(function (t) {
+      return '<div class="tile"><div class="tile-num">' + t.n + '</div><div class="tile-label">' + t.label + '</div></div>';
+    }).join('');
+
+    var cats = CATEGORIES.filter(function (c) { return c !== '全部'; });
+    var counts = cats.map(function (c) { return DATA.filter(function (e) { return e.c === c; }).length; });
+    var R = 70, CIRC = 2 * Math.PI * R, offset = 0;
+    var segs = counts.map(function (n, i) {
+      var len = n / total * CIRC;
+      var s = '<circle cx="90" cy="90" r="' + R + '" fill="none" stroke="' + catColor(cats[i]) + '" stroke-width="22" stroke-dasharray="' + Math.max(len - 2, 0).toFixed(1) + ' ' + CIRC.toFixed(1) + '" stroke-dashoffset="' + (-offset).toFixed(1) + '"/>';
+      offset += len;
+      return s;
+    }).join('');
+    document.getElementById('donutWrap').innerHTML =
+      '<svg width="180" height="180" viewBox="0 0 180 180">' + segs + '</svg>' +
+      '<div class="donut-center"><div class="donut-total">' + total + '</div><div class="donut-label">' + I18N.t('stats.tileTotal') + '</div></div>';
+    document.getElementById('donutLegend').innerHTML = cats.map(function (c, i) {
+      return '<div class="legend-item"><span class="dot" style="background:' + catColor(c) + '"></span><span class="lg-name">' + I18N.cat(c) + '</span><span class="lg-n">' + counts[i] + '</span></div>';
+    }).join('');
+
+    var freeRes = freeResources.length, toolsN = tools.length;
+    var fp = Math.round(freeRes / total * 100);
+    document.getElementById('splitBar').innerHTML =
+      '<div class="split-seg" style="width:' + fp + '%;background:#CDBD09">' + freeRes + '</div>' +
+      '<div class="split-seg" style="width:' + (100 - fp) + '%;background:#252525">' + toolsN + '</div>';
+    document.getElementById('splitLabels').innerHTML =
+      '<div class="legend-item"><span class="dot" style="background:#CDBD09"></span><span class="lg-name">' + I18N.cat('免费资源') + '</span><span class="lg-n">' + freeRes + '</span></div>' +
+      '<div class="legend-item"><span class="dot" style="background:#252525"></span><span class="lg-name">' + I18N.t('nav.tools') + '</span><span class="lg-n">' + toolsN + '</span></div>';
+
+    var pcats = PROMPT_CATEGORIES.map(function (c) {
+      return { c: c, n: PROMPTS.filter(function (p) { return p.cat === c; }).length };
+    }).sort(function (a, b) { return b.n - a.n; });
+    var max = pcats[0].n;
+    document.getElementById('promptBars').innerHTML = pcats.map(function (p) {
+      return '<div class="bar-row"><span class="bar-label">' + I18N.cat(p.c) + '</span>' +
+        '<div class="bar-track"><div class="bar-fill" style="width:' + Math.round(p.n / max * 100) + '%"></div></div>' +
+        '<span class="bar-count">' + p.n + '</span></div>';
+    }).join('');
+  }
+
+  // 给每条数据挂上在 DATA 里的下标，供 i18n 查翻译
+  DATA.forEach(function (e, i) { e._idx = i; });
+
+  // 免费资源单独成区展示（已验证的排在前面）；其余 72 个为热门工具网格
+  var freeResources = DATA.filter(function (e) { return e.c === '免费资源'; });
+  freeResources.sort(function (a, b) { return (b.v ? 1 : 0) - (a.v ? 1 : 0); });
+  var tools = DATA.filter(function (e) { return e.c !== '免费资源'; });
+
+  var verifiedCount = DATA.filter(function (e) { return e.v; }).length;
+  var freeCount = DATA.filter(function (e) { return e.p === '免费' || e.p === '开源'; }).length;
+
+  // 分类按钮（免费资源已有单独展区，不再出现在筛选里）；标签随语言切换重建，值始终用中文原名
+  var toolCats = CATEGORIES.filter(function (c) { return c !== '免费资源'; });
+  function buildChips() {
+    chipsBox.innerHTML = '';
+    toolCats.forEach(function (cat) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip' + (cat === activeCat ? ' active' : '');
+      b.style.setProperty('--cat', catColor(cat));
+      b.innerHTML = '<span class="chip-dot"></span>';
+      b.appendChild(document.createTextNode(I18N.cat(cat)));
+      b.addEventListener('click', function () {
+        activeCat = cat;
+        Array.prototype.forEach.call(chipsBox.children, function (c) { c.classList.remove('active'); });
+        b.classList.add('active');
+        render();
+      });
+      chipsBox.appendChild(b);
+    });
+  }
+
+  function priceClass(p) {
+    return { '免费': 'free', '免费试用': 'trial', '付费': 'paid', '开源': 'oss' }[p] || '';
+  }
+
+  function badgesHTML(e) {
+    var s = '<span class="badge ' + priceClass(e.p) + '">' + I18N.price(e.p) + '</span>';
+    if (e.v) s += '<span class="badge verified">' + I18N.t('badge.verified') + '</span>';
+    return s;
+  }
+
+  function descOf(e) {
+    var tr = I18N.desc(e._idx);
+    return tr ? tr.d : e.d;
+  }
+  function noteOf(e) {
+    var tr = I18N.desc(e._idx);
+    return tr ? tr.note : (e.note || '');
+  }
+  function tagsHTML(e) {
+    var tr = I18N.desc(e._idx);
+    var tags = tr ? tr.tags : (e.t || []);
+    return tags.map(function (t) { return '<span class="tag">' + t + '</span>'; }).join('');
+  }
+
+  function matches(e, q) {
+    if (!q) return true;
+    var tr = I18N.desc(e._idx);
+    var hay = (e.n + ' ' + e.d + ' ' + (e.t || []).join(' ') + ' ' +
+      (tr ? tr.d + ' ' + (tr.note || '') + ' ' + (tr.tags || []).join(' ') + ' ' : '') + e.u).toLowerCase();
+    return hay.indexOf(q) !== -1;
+  }
+
+  function showcaseHTML(e) {
+    var note = noteOf(e) ? '<p class="sc-note">' + noteOf(e) + '</p>' : '';
+    return '<article class="sc-card reveal" style="--cat:' + catColor(e.c) + '">' +
+      '<div class="sc-visual">' + catVisual(e.c) + '</div>' +
+      '<div class="sc-body">' +
+      '<p class="sc-eyebrow">' + badgesHTML(e) + '</p>' +
+      '<h3 class="sc-name"><a href="' + e.u + '" target="_blank" rel="noopener">' + e.n + '</a></h3>' +
+      '<p class="sc-desc">' + descOf(e) + '</p>' + note +
+      '<div class="sc-bottom"><div class="tags">' + tagsHTML(e) + '</div>' +
+      '<a class="sc-cta" href="' + e.u + '" target="_blank" rel="noopener">' + I18N.t('tools.use') + '</a></div>' +
+      '</div></article>';
+  }
+
+  function cardHTML(e) {
+    var note = noteOf(e) ? '<p class="note">' + noteOf(e) + '</p>' : '';
+    return '<article class="card reveal" style="--cat:' + catColor(e.c) + '">' +
+      '<div class="card-visual">' + catVisual(e.c) + '</div>' +
+      '<div class="card-body">' +
+      '<div class="card-top"><a class="name" href="' + e.u + '" target="_blank" rel="noopener">' + e.n + '</a>' +
+      '<span class="cat">' + I18N.cat(e.c) + '</span></div>' +
+      '<p class="desc">' + descOf(e) + '</p>' + note +
+      '<div class="card-bottom"><div class="tags">' + tagsHTML(e) + '</div>' +
+      '<a class="visit" href="' + e.u + '" target="_blank" rel="noopener">' + I18N.t('tools.visit') + '</a></div>' +
+      '<div class="badges">' + badgesHTML(e) + '</div>' +
+      '</div></article>';
+  }
+
+  function render() {
+    statsEl.textContent = I18N.tf('stats', { total: DATA.length, verified: verifiedCount, free: freeCount });
+    var q = (searchInput.value || '').trim().toLowerCase();
+
+    // 搜索同时过滤免费资源展区；无匹配时整区收起
+    var shown = freeResources.filter(function (e) { return matches(e, q); });
+    if (document.getElementById('featuredTools')) shown = shown.slice(0, 4);
+    showcase.innerHTML = shown.map(showcaseHTML).join('');
+    if (document.getElementById('showcase')) showcaseSection.style.display = shown.length ? '' : 'none';
+
+    var list = tools.filter(function (e) {
+      if (activeCat !== '全部' && e.c !== activeCat) return false;
+      if (freeOnlyBox.checked && !(e.p === '免费' || e.p === '开源')) return false;
+      return matches(e, q);
+    });
+    grid.innerHTML = list.map(cardHTML).join('');
+    var featured = document.getElementById('featuredTools');
+    if (featured) featured.innerHTML = tools.slice(0, 4).map(cardHTML).join('');
+    countEl.textContent = I18N.tf('tools.count', { n: list.length }) +
+      (activeCat !== '全部' ? I18N.tf('tools.countCat', { cat: I18N.cat(activeCat) }) : '');
+    emptyEl.hidden = list.length > 0;
+  }
+
+  searchInput.addEventListener('input', render);
+  freeOnlyBox.addEventListener('change', render);
+  if (document.getElementById('chips')) buildChips();
+  render();
+  renderGlance();
+  if (window.I18N) I18N.onChange(function () { buildChips(); render(); renderGlance(); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();

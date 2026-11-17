@@ -1077,3 +1077,65 @@ section { scroll-margin-top: 64px; }
   .nav-auth { padding: 8px 12px; font-size: 13px; min-height: 36px; }
   .order-qr { width: 220px; height: 220px; }
 }
+
+/* b.ai warm cream palette and editorial layout */
+:root {
+  --text:#141413; --body:#252525; --muted:#8f8f8f; --faint:#979797; --link:#141413;
+  --blue:#CDBD09; --blue-hover:#b6a800; --grad:#CDBD09; --bg:#FFFDF7; --bg2:#FEFBF3;
+  --card:#fff; --card2:#fcfcfc; --border:#D9D4CA; --card-border:#dcd3c7;
+  --nav-bg:rgba(255,253,247,.94); --green:#8a8110; --gold:#CDBD09; --purple:#70671a;
+  --cat-free:#9b8f12; --cat-img:#8f7a39; --cat-video:#a67758; --cat-write:#667c7a; --cat-code:#967b32;
+  --cat-audio:#558077; --cat-search:#687a8b; --cat-design:#a26d40; --cat-eff:#788344;
+}
+body { background:#FFFDF7; color:#141413; font-family:system-ui,-apple-system,"Segoe UI","Helvetica Neue",Arial,sans-serif; }
+a { color:#141413; }
+.apple-nav { border-bottom:1px solid #D9D4CA; background:rgba(255,253,247,.96); backdrop-filter:blur(12px); }
+.nav-inner { max-width:1180px; height:68px; }
+.nav-logo,.nav-links a { color:#141413; }
+.nav-logo { font-weight:750; }
+.nav-logo::before { background:#CDBD09; border-radius:50%; }
+.nav-links a { opacity:.78; font-size:14px; }
+.nav-links a:hover,.nav-links a[aria-current="page"] { opacity:1; color:#8c8000; }
+.lang-select { color:#141413; background:#fff; border-color:#D9D4CA; padding:7px 10px; }
+.nav-auth { color:#141413; background:#CDBD09; border-color:#CDBD09; }
+.nav-auth:hover { background:#b6a800; }
+.hero { padding:100px 22px 76px; background:var(--bg); }
+.hero-art { opacity:.32; }
+.hero h1 { background:none; -webkit-text-fill-color:#141413; color:#141413; font-weight:800; font-size:clamp(46px,7vw,84px); }
+.hero-eyebrow { background:none; -webkit-text-fill-color:#8c8000; color:#8c8000; }
+.hero-sub,.section-sub { color:#68665e; }
+.btn-primary,.price-btn { background:#CDBD09; color:#141413; border-color:#CDBD09; font-weight:700; }
+.btn-primary:hover,.price-btn:hover { background:#b6a800; }
+.btn-link,.link-btn,.sc-cta,.visit { color:#141413; }
+.glance,.tools,.prompts,.pricing { background:#FFFDF7; }
+.showcase { background:#FEFBF3; }
+.section-head h2,.chart-title,.sc-name,.name,.card-top .name { color:#141413; }
+.eyebrow { background:none; -webkit-text-fill-color:#8c8000; color:#8c8000; }
+.tile,.chart-panel,.sc-card,.card,.prompt-card,.price-card,.member-bar { background:#fff; border-color:#dcd3c7; box-shadow:0 8px 28px rgba(40,35,10,.045); }
+.tile-num,.donut-total { background:none; -webkit-text-fill-color:#141413; color:#141413; }
+.bar-fill,.split-seg:first-child { background:#CDBD09 !important; }
+.split-seg:last-child { background:#252525 !important; }
+.chip { color:#252525; border-color:#D9D4CA; background:#fff; }
+.chip.active { color:#141413; border-color:#CDBD09; background:#f5edb0; }
+.card-visual,.sc-visual { background:linear-gradient(135deg,#FEFBF3,#f3efd9); }
+.card,.sc-card { border-radius:12px; }
+.site-footer { background:#111111; color:#FFFDF7; border:0; }
+.site-footer a,.site-footer strong { color:#FFFDF7; }
+.modal-backdrop { background:rgba(20,20,19,.56); }
+.modal-card { color:#141413; background:#FFFDF7; border:1px solid #D9D4CA; }
+.modal-card h3,#authForm label { color:#141413; }
+.modal-sub,.auth-switch { color:#68665e; }
+.auth-tab { color:#252525; background:#FEFBF3; border-color:#D9D4CA; }
+.auth-tab.active { background:#CDBD09; border-color:#CDBD09; color:#141413; }
+#authForm input { color:#141413; background:#fff; border-color:#D9D4CA; }
+#authForm input:focus { border-color:#CDBD09; box-shadow:0 0 0 3px rgba(205,189,9,.2); }
+@media(max-width:760px) { .nav-inner {height:auto; min-height:62px; flex-wrap:wrap; padding-top:10px; padding-bottom:10px}.nav-links {order:3;width:100%;justify-content:space-between;gap:8px;overflow:auto}.nav-links a{font-size:12px}.hero{padding-top:70px} }
+.p-cover { color:#141413; }
+.p-cover .p-cat { color:#141413; background:rgba(255,253,247,.82); border:1px solid #dcd3c7; }
+.price-card h3 { color:#141413; }
+.price-card.featured { background:#fff; border-color:#CDBD09; color:#141413; }
+.price-card.featured .per { color:#8f8f8f; }
+.price-card.featured .benefits { border-top-color:#dcd3c7; }
+.price-card.featured .benefits li { color:#252525; }
+.price-card.featured .btn-primary { background:#CDBD09; color:#141413; }
+.price-card.featured .btn-primary:hover { background:#b6a800; filter:none; }

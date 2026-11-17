@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI Tools — AI Resource Navigator</title><meta name="description" content="A curated navigator for free AI resources, tools, prompts, and membership."><link rel="stylesheet" href="styles.css"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4561887610959232" crossorigin="anonymous"></script></head><body><nav class="apple-nav" aria-label="Main navigation"><div class="nav-inner"><a class="nav-logo" href="index.html" data-i18n="nav.logo">AI Resource Navigator</a><div class="nav-links"><a href="index.html" data-i18n="nav.home">Home</a><a href="free.html" data-i18n="nav.free">Free resources</a><a href="tools.html" data-i18n="nav.tools">AI tools</a><a href="prompts.html" data-i18n="nav.prompts">Prompts</a><a href="svip.html" data-i18n="nav.svip">SVIP</a></div><div class="nav-actions"><select id="langSelect" class="lang-select" aria-label="Language"></select><button type="button" class="nav-auth" id="navAuth" data-i18n="pay.login">Log in</button></div></div></nav><section class="tools" id="tools" aria-label="热门 AI 工具">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-i18n="tools.eyebrow">热门工具</p>
+      <h2 data-i18n="tools.h2">72 款热门 AI 工具。</h2>
+      <p class="section-sub" data-i18n="tools.sub">按分类浏览，或用搜索直达。</p>
+    </div>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="搜索工具名、描述或标签，如：视频、API、免费…" data-i18n-ph="tools.searchPh" autocomplete="off" aria-label="搜索工具">
+      <label class="free-only"><input type="checkbox" id="freeOnly"> <span data-i18n="tools.freeOnly">只看免费（含开源）</span></label>
+    </div>
+    <nav class="chips" id="chips" aria-label="分类筛选"></nav>
+    <p class="count" id="count"></p>
+    <div class="grid" id="grid"></div>
+    <p class="empty" id="empty" data-i18n="tools.empty" hidden>没有找到匹配的工具，换个关键词或分类试试。</p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong data-i18n="footer.p1">关于“已验证”：带「已验证」标记的免费资源是本站于 2026 年 11 月人工核实过的（账号、余额、额度均在官方页面确认）；未标记的为公开资料整理，免费额度以官方页面为准，各家政策随时会变。</strong></p>
+    <p data-i18n="footer.p2">说明：本站只收录公开链接与公开信息，不存储任何 API Key、Token、密码或个人信息。DeepSeek 官方平台经核实目前无免费额度，已如实标注，避免误导。</p>
+    <p data-i18n-html="footer.p3">开源项目 · MIT License · 数据在 <code>app.js</code> 里，欢迎提交 PR 补充或纠错。仓库：<a href="https://github.com/dannykocko/ai-nav-site" target="_blank" rel="noopener">github.com/dannykocko/ai-nav-site</a></p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" data-i18n="toast">已复制 ✓</div>
+
+<!-- SVIP 登录 / 注册弹窗 -->
+<div class="modal" id="authModal" hidden>
+  <div class="modal-backdrop" data-close-auth></div>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button type="button" class="modal-x" data-close-auth aria-label="×">×</button>
+    <h3 data-i18n="pay.authTitle">登录 / 注册 SVIP</h3>
+    <p class="modal-sub" data-i18n="pay.authSub">登录后即可用 USDT 开通会员。</p>
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" data-mode="login" data-i18n="pay.login">登录</button>
+      <button type="button" class="auth-tab" data-mode="register" data-i18n="pay.register">注册</button>
+    </div>
+    <form id="authForm">
+      <label><span data-i18n="pay.email">邮箱</span><input type="email" id="authEmail" required autocomplete="email" data-i18n-ph="pay.emailPh" placeholder="输入邮箱"></label>
+      <label><span data-i18n="pay.password">密码</span><input type="password" id="authPassword" required minlength="8" autocomplete="current-password" data-i18n-ph="pay.passwordPh" placeholder="至少 8 位"></label>
+      <label id="confirmPwRow" hidden><span data-i18n="pay.confirmPassword">确认密码</span><input type="password" id="authPassword2" minlength="8" autocomplete="new-password" data-i18n-ph="pay.confirmPasswordPh" placeholder="再次输入密码"></label>
+      <div class="code-row" id="codeRow" hidden>
+        <label><span data-i18n="pay.code">邮箱验证码</span><input type="text" id="authCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" data-i18n-ph="pay.codePh" placeholder="6 位验证码"></label>
+        <button type="button" class="btn-outline code-btn" id="sendCodeBtn" data-i18n="pay.sendCode">发送验证码</button>
+      </div>
+      <p class="form-err" id="authErr" hidden></p>
+      <button type="submit" class="btn-primary auth-submit" id="authSubmit" data-i18n="pay.loginBtn">登录</button>
+    </form>
+    <p class="auth-switch"><span id="authSwitchText" data-i18n="pay.noAccount">还没有账号？</span> <button type="button" class="link-btn" id="authSwitch" data-i18n="pay.register">注册</button></p>
+  </div>
+</div>
+
+<!-- SVIP 付款弹窗 -->
+<div class="modal" id="orderModal" hidden>
+  <div class="modal-backdrop" data-close-order></div>
+  <div class="modal-card order-card" role="dialog" aria-modal="true">
+    <button type="button" class="modal-x" data-close-order aria-label="×">×</button>
+    <h3 data-i18n="pay.orderTitle">扫码付款</h3>
+    <div id="orderBody"></div>
+  </div>
+</div>
+
+<script src="i18n.js"></script><script src="app.js"></script><script src="prompts.js"></script><script src="pay.js"></script></body></html>

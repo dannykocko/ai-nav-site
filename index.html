@@ -1,73 +1,43 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 资源导航 · 免费 AI 资源与热门 AI 工具合集</title>
-<meta name="description" content="AI 资源导航：人工核实的免费 AI 资源（免费 API、免费 GPU、免费模型）与热门 AI 工具合集（生图、生视频、写作、编程、音频、搜索、设计、效率）。">
-<link rel="stylesheet" href="styles.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231d1d1f'/><text x='32' y='42' font-size='26' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>AI</text></svg>">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4561887610959232" crossorigin="anonymous"></script>
-</head>
-<body>
-
-<nav class="apple-nav" aria-label="主导航">
-  <div class="nav-inner">
-    <a class="nav-logo" href="#" data-i18n="nav.logo">AI 资源导航</a>
-    <div class="nav-links">
-      <a href="#free" data-i18n="nav.free">免费资源</a>
-      <a href="#tools" data-i18n="nav.tools">热门工具</a>
-      <a href="#prompts" data-i18n="nav.prompts">提示词库</a>
-      <a href="#pricing">SVIP</a>
-      <a href="https://github.com/dannykocko/ai-nav-site" target="_blank" rel="noopener">GitHub</a>
-    </div>
-    <div class="nav-actions">
-      <button type="button" class="nav-auth" id="navAuth" data-i18n="pay.login">登录</button>
-      <select id="langSelect" class="lang-select" aria-label="Language / 语言"></select>
-    </div>
-  </div>
-</nav>
-
-<header class="hero">
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI Resource Navigator — Home</title><meta name="description" content="A curated navigator for free AI resources, tools, prompts, and membership."><link rel="stylesheet" href="styles.css"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4561887610959232" crossorigin="anonymous"></script></head><body><nav class="apple-nav" aria-label="Main navigation"><div class="nav-inner"><a class="nav-logo" href="index.html" data-i18n="nav.logo">AI Resource Navigator</a><div class="nav-links"><a href="index.html" data-i18n="nav.home">Home</a><a href="free.html" data-i18n="nav.free">Free resources</a><a href="tools.html" data-i18n="nav.tools">AI tools</a><a href="prompts.html" data-i18n="nav.prompts">Prompts</a><a href="svip.html" data-i18n="nav.svip">SVIP</a></div><div class="nav-actions"><select id="langSelect" class="lang-select" aria-label="Language"></select><button type="button" class="nav-auth" id="navAuth" data-i18n="pay.login">Log in</button></div></div></nav><header class="hero">
   <svg class="hero-art" viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <defs>
       <radialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.55"/>
-        <stop offset="55%" stop-color="#3b82f6" stop-opacity="0.22"/>
-        <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+        <stop offset="0%" stop-color="#CDBD09" stop-opacity="0.55"/>
+        <stop offset="55%" stop-color="#D9D4CA" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#D9D4CA" stop-opacity="0"/>
       </radialGradient>
       <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.8"/>
-        <stop offset="55%" stop-color="#38bdf8" stop-opacity="0.5"/>
-        <stop offset="100%" stop-color="#f472b6" stop-opacity="0.8"/>
+        <stop offset="0%" stop-color="#CDBD09" stop-opacity="0.8"/>
+        <stop offset="55%" stop-color="#979797" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#dcd3c7" stop-opacity="0.8"/>
       </linearGradient>
     </defs>
     <circle cx="600" cy="250" r="330" fill="none" stroke="url(#ringGrad)" stroke-width="1" opacity="0.5"/>
     <circle cx="600" cy="250" r="250" fill="none" stroke="url(#ringGrad)" stroke-width="1" opacity="0.35"/>
     <circle cx="600" cy="250" r="170" fill="none" stroke="url(#ringGrad)" stroke-width="1" opacity="0.25"/>
     <circle cx="600" cy="250" r="120" fill="url(#orbGlow)"/>
-    <circle cx="600" cy="250" r="52" fill="#8b5cf6" opacity="0.85"/>
-    <circle cx="600" cy="250" r="30" fill="#c4b5fd"/>
-    <circle cx="850" cy="80" r="4" fill="#38bdf8"/>
-    <circle cx="380" cy="120" r="3" fill="#f472b6"/>
-    <circle cx="930" cy="300" r="3" fill="#a78bfa"/>
-    <circle cx="300" cy="330" r="4" fill="#38bdf8"/>
-    <circle cx="770" cy="430" r="3" fill="#f472b6"/>
-    <circle cx="470" cy="440" r="2.5" fill="#a3e635"/>
-    <circle cx="600" cy="0" r="3" fill="#fbbf24"/>
-    <circle cx="850" cy="80" r="9" fill="none" stroke="#38bdf8" stroke-width="1" opacity="0.6"/>
-    <circle cx="300" cy="330" r="9" fill="none" stroke="#38bdf8" stroke-width="1" opacity="0.6"/>
-    <line x1="600" y1="250" x2="850" y2="80" stroke="#38bdf8" stroke-width="1" opacity="0.25"/>
-    <line x1="600" y1="250" x2="300" y2="330" stroke="#f472b6" stroke-width="1" opacity="0.25"/>
-    <line x1="600" y1="250" x2="930" y2="300" stroke="#a78bfa" stroke-width="1" opacity="0.2"/>
+    <circle cx="600" cy="250" r="52" fill="#CDBD09" opacity="0.85"/>
+    <circle cx="600" cy="250" r="30" fill="#FEFBF3"/>
+    <circle cx="850" cy="80" r="4" fill="#979797"/>
+    <circle cx="380" cy="120" r="3" fill="#dcd3c7"/>
+    <circle cx="930" cy="300" r="3" fill="#CDBD09"/>
+    <circle cx="300" cy="330" r="4" fill="#979797"/>
+    <circle cx="770" cy="430" r="3" fill="#dcd3c7"/>
+    <circle cx="470" cy="440" r="2.5" fill="#979797"/>
+    <circle cx="600" cy="0" r="3" fill="#CDBD09"/>
+    <circle cx="850" cy="80" r="9" fill="none" stroke="#979797" stroke-width="1" opacity="0.6"/>
+    <circle cx="300" cy="330" r="9" fill="none" stroke="#979797" stroke-width="1" opacity="0.6"/>
+    <line x1="600" y1="250" x2="850" y2="80" stroke="#979797" stroke-width="1" opacity="0.25"/>
+    <line x1="600" y1="250" x2="300" y2="330" stroke="#dcd3c7" stroke-width="1" opacity="0.25"/>
+    <line x1="600" y1="250" x2="930" y2="300" stroke="#CDBD09" stroke-width="1" opacity="0.2"/>
   </svg>
   <p class="hero-eyebrow" data-i18n="hero.eyebrow">AI 资源导航</p>
   <h1 data-i18n="hero.h1">免费 AI，一站找全。</h1>
   <p class="hero-sub" data-i18n="hero.sub">人工核实的免费大模型、免费 API 与免费 GPU，再加 72 款热门 AI 工具——生图、生视频、写作、编程、音频、搜索、设计、效率，全部免费直达。</p>
   <p class="hero-stats" id="stats"></p>
   <div class="hero-cta">
-    <a class="btn-primary" href="#free" data-i18n="hero.ctaPrimary">看看免费资源</a>
-    <a class="btn-link" href="#tools" data-i18n="hero.ctaLink">浏览全部工具&nbsp;›</a>
+    <a class="btn-primary" href="free.html" data-i18n="hero.ctaPrimary">看看免费资源</a>
+    <a class="btn-link" href="tools.html" data-i18n="hero.ctaLink">浏览全部工具&nbsp;›</a>
   </div>
 </header>
 
@@ -111,123 +81,7 @@
   </div>
 </section>
 
-<section class="tools" id="tools" aria-label="热门 AI 工具">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow" data-i18n="tools.eyebrow">热门工具</p>
-      <h2 data-i18n="tools.h2">72 款热门 AI 工具。</h2>
-      <p class="section-sub" data-i18n="tools.sub">按分类浏览，或用搜索直达。</p>
-    </div>
-    <div class="toolbar">
-      <input id="search" type="search" placeholder="搜索工具名、描述或标签，如：视频、API、免费…" data-i18n-ph="tools.searchPh" autocomplete="off" aria-label="搜索工具">
-      <label class="free-only"><input type="checkbox" id="freeOnly"> <span data-i18n="tools.freeOnly">只看免费（含开源）</span></label>
-    </div>
-    <nav class="chips" id="chips" aria-label="分类筛选"></nav>
-    <p class="count" id="count"></p>
-    <div class="grid" id="grid"></div>
-    <p class="empty" id="empty" data-i18n="tools.empty" hidden>没有找到匹配的工具，换个关键词或分类试试。</p>
-  </div>
-</section>
-
-<section class="prompts" id="prompts" aria-label="提示词库">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow" data-i18n="prompts.eyebrow">提示词库</p>
-      <h2 data-i18n="prompts.h2">好提示词，一句话出片。</h2>
-      <p class="section-sub" data-i18n="prompts.sub">216 条精选提示词：204 条视频提示词来自开源合集，另有 12 条通用提示词。点复制，直接粘贴到你的 AI 工具里用。</p>
-      <p class="prompt-lang-note" data-i18n="prompts.note">提示词正文保持原文（中文或英文），照原样使用；仅标题与分类已翻译。</p>
-    </div>
-    <div class="toolbar">
-      <input id="promptSearch" type="search" placeholder="搜索提示词，如：古风、卡点、猫…" data-i18n-ph="prompts.searchPh" autocomplete="off" aria-label="搜索提示词">
-    </div>
-    <nav class="chips" id="promptChips" aria-label="提示词分类筛选"></nav>
-    <p class="count" id="promptCount"></p>
-    <div class="prompt-grid" id="promptGrid"></div>
-    <p class="empty" id="promptEmpty" data-i18n="prompts.empty" hidden>没有找到匹配的提示词，换个关键词或分类试试。</p>
-    <div class="load-more-wrap"><button type="button" class="btn-outline" id="promptMore" data-i18n="prompts.more" hidden>加载更多</button></div>
-    <p class="source-note" data-i18n-html="prompts.sourceNote">来源：视频提示词 204 条来自 <a href="https://github.com/apimodels/muse-video-prompts" target="_blank" rel="noopener">apimodels/muse-video-prompts</a>（开源合集，各条原作者与原文链接见卡片）；通用提示词 12 条来自 <a href="https://www.promptingguide.ai/prompts" target="_blank" rel="noopener">Prompt Engineering Guide</a>（MIT 协议）Prompt Hub。卡片配图为本站竖屏短剧剧照（《血汗钱被骗光，回村种出资本帝国》与《林默》）与 SDXL 测试图，按分类展示，仅作视觉参考，与提示词内容无直接对应。</p>
-  </div>
-</section>
-
-<section class="pricing" id="pricing" aria-label="SVIP 会员">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow" data-i18n="pricing.eyebrow">SVIP 会员</p>
-      <h2 data-i18n="pricing.h2">价格简单，按需开通。</h2>
-      <p class="section-sub" data-i18n="pricing.sub">解锁 AI 与 Agent 搭建、使用、落地业务的最新最全教程课程，持续更新。四档可选，支持 USDT 支付，到账自动开通。</p>
-      <div class="currency-toggle" role="group" aria-label="Currency">
-        <span class="cur-label" data-i18n="pricing.currency">货币</span>
-        <button type="button" class="cur-btn active" data-currency="usd">USD $</button>
-        <button type="button" class="cur-btn" data-currency="eur">EUR €</button>
-      </div>
-    </div>
-    <div class="member-bar" id="memberBar"></div>
-    <div class="pricing-grid">
-      <article class="price-card plan-month">
-        <h3 data-i18n="pricing.plan.month">一个月</h3>
-        <p class="price"><span class="currency">$</span><span class="price-amount">9.9</span></p>
-        <p class="per" data-per-plan="month"></p>
-        <ul class="benefits">
-          <li data-i18n="pricing.benefit1">AI / Agent 搭建全教程</li>
-          <li data-i18n="pricing.benefit2">使用指南</li>
-          <li data-i18n="pricing.benefit3">落地业务实战课程</li>
-          <li data-i18n="pricing.benefit4">持续更新</li>
-        </ul>
-        <button type="button" class="btn-primary price-btn" data-plan="month" data-i18n="pricing.btn">立即开通</button>
-      </article>
-      <article class="price-card plan-quarter">
-        <h3 data-i18n="pricing.plan.quarter">三个月</h3>
-        <p class="price"><span class="currency">$</span><span class="price-amount">19.9</span></p>
-        <p class="per" data-per-plan="quarter"></p>
-        <ul class="benefits">
-          <li data-i18n="pricing.benefit1">AI / Agent 搭建全教程</li>
-          <li data-i18n="pricing.benefit2">使用指南</li>
-          <li data-i18n="pricing.benefit3">落地业务实战课程</li>
-          <li data-i18n="pricing.benefit4">持续更新</li>
-        </ul>
-        <button type="button" class="btn-primary price-btn" data-plan="quarter" data-i18n="pricing.btn">立即开通</button>
-      </article>
-      <article class="price-card plan-half">
-        <h3 data-i18n="pricing.plan.half">半年</h3>
-        <p class="price"><span class="currency">$</span><span class="price-amount">29.9</span></p>
-        <p class="per" data-per-plan="half"></p>
-        <ul class="benefits">
-          <li data-i18n="pricing.benefit1">AI / Agent 搭建全教程</li>
-          <li data-i18n="pricing.benefit2">使用指南</li>
-          <li data-i18n="pricing.benefit3">落地业务实战课程</li>
-          <li data-i18n="pricing.benefit4">持续更新</li>
-        </ul>
-        <button type="button" class="btn-primary price-btn" data-plan="half" data-i18n="pricing.btn">立即开通</button>
-      </article>
-      <article class="price-card featured plan-year">
-        <span class="best-badge" data-i18n="pricing.best">最划算</span>
-        <h3 data-i18n="pricing.plan.year">一年</h3>
-        <p class="price"><span class="currency">$</span><span class="price-amount">69.9</span></p>
-        <p class="per" data-per-plan="year"></p>
-        <ul class="benefits">
-          <li data-i18n="pricing.benefit1">AI / Agent 搭建全教程</li>
-          <li data-i18n="pricing.benefit2">使用指南</li>
-          <li data-i18n="pricing.benefit3">落地业务实战课程</li>
-          <li data-i18n="pricing.benefit4">持续更新</li>
-        </ul>
-        <button type="button" class="btn-primary price-btn" data-plan="year" data-i18n="pricing.btn">立即开通</button>
-      </article>
-      <article class="price-card plan-lifetime">
-        <h3 data-i18n="pricing.plan.lifetime">永久</h3>
-        <p class="price"><span class="currency">$</span><span class="price-amount">99</span></p>
-        <p class="per" data-per-plan="lifetime"></p>
-        <ul class="benefits">
-          <li data-i18n="pricing.benefit1">AI / Agent 搭建全教程</li>
-          <li data-i18n="pricing.benefit2">使用指南</li>
-          <li data-i18n="pricing.benefit3">落地业务实战课程</li>
-          <li data-i18n="pricing.benefit4">持续更新</li>
-        </ul>
-        <button type="button" class="btn-primary price-btn" data-plan="lifetime" data-i18n="pricing.btn">立即开通</button>
-      </article>
-    </div>
-  </div>
-</section>
-
+<section class="tools featured-tools"><div class="wrap"><div class="section-head"><p class="eyebrow" data-i18n="nav.tools">热门工具</p><h2 data-i18n="home.featuredTools">精选工具。</h2><p class="section-sub" data-i18n="home.featuredSub">从 72 款工具中挑选，继续探索完整目录。</p></div><div class="grid" id="featuredTools"></div><p class="load-more-wrap"><a class="btn-outline" href="tools.html" data-i18n="home.allTools">浏览全部工具 →</a></p></div></section>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong data-i18n="footer.p1">关于“已验证”：带「已验证」标记的免费资源是本站于 2026 年 11 月人工核实过的（账号、余额、额度均在官方页面确认）；未标记的为公开资料整理，免费额度以官方页面为准，各家政策随时会变。</strong></p>
@@ -236,214 +90,6 @@
   </div>
 </footer>
 
-<script src="app.js"></script>
-<script src="prompts.js"></script>
-<script src="i18n.js"></script>
-<script>
-(function () {
-  var grid = document.getElementById('grid');
-  var showcase = document.getElementById('showcase');
-  var showcaseSection = document.getElementById('free');
-  var chipsBox = document.getElementById('chips');
-  var searchInput = document.getElementById('search');
-  var freeOnlyBox = document.getElementById('freeOnly');
-  var countEl = document.getElementById('count');
-  var emptyEl = document.getElementById('empty');
-  var statsEl = document.getElementById('stats');
-  var activeCat = '全部';
-
-  // 分类强调色（与 styles.css 的 --cat-* 同一份色值）
-  var CAT_COLORS = {
-    '免费资源': '#34d399', '生图': '#a78bfa', '生视频': '#f472b6',
-    '写作对话': '#38bdf8', '编程': '#fbbf24', '音频音乐': '#2dd4bf',
-    '搜索办公': '#818cf8', '设计': '#fb923c', '效率': '#a3e635'
-  };
-  function catColor(c) { return CAT_COLORS[c] || '#8b5cf6'; }
-
-  // 每个分类一张小插画（内联 SVG 线稿，currentColor = 分类色）
-  var CAT_VISUALS = {
-    '免费资源': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="42" y="28" width="36" height="26" rx="3"/><path d="M42 36h36M60 28v26"/><path d="M60 28c-9 0-13-4-13-9s5-7 9-4c3 2 3 6 4 13zm0 0c9 0 13-4 13-9s-5-7-9-4c-3 2-3 6-4 13z"/><path d="M24 12l2 4.5 4.5 2-4.5 2-2 4.5-2-4.5-4.5-2 4.5-2z" fill="currentColor" stroke="none"/><path d="M96 10l1.5 3.5 3.5 1.5-3.5 1.5L96 20l-1.5-3.5L91 15l3.5-1.5z" fill="currentColor" stroke="none"/></svg>',
-    '生图': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="28" y="10" width="64" height="44" rx="6"/><circle cx="47" cy="24" r="5"/><path d="M28 46l14-15 12 12 10-8 12 11 4-4 12 12"/></svg>',
-    '生视频': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="26" y="12" width="68" height="40" rx="8"/><path d="M52 24l18 8-18 8z" fill="currentColor" stroke="none"/><path d="M34 18v28M86 18v28" opacity="0.45"/></svg>',
-    '写作对话': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 14h60a6 6 0 016 6v20a6 6 0 01-6 6H55l-13 10v-10H30a6 6 0 01-6-6V20a6 6 0 016-6z"/><path d="M36 26h48M36 36h30"/></svg>',
-    '编程': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M44 20l-14 12 14 12M76 20l14 12-14 12M67 14l-14 36"/></svg>',
-    '音频音乐': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M34 26v12M44 18v28M54 24v16M64 14v36M74 22v20M84 28v8"/></svg>',
-    '搜索办公': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="30" r="14"/><path d="M60 40l12 12"/><path d="M84 16h12M84 24h12M84 32h8" opacity="0.55"/></svg>',
-    '设计': '<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M60 10l14 22-14 26-14-26z"/><circle cx="60" cy="26" r="4"/><path d="M46 32l-8 20 10-4M74 32l8 20-10-4"/></svg>',
-    '效率': '<svg viewBox="0 0 120 64" fill="currentColor" stroke="none"><path d="M66 8L40 38h14l-6 18 26-30H60l6-18z"/></svg>'
-  };
-  function catVisual(c) { return CAT_VISUALS[c] || CAT_VISUALS['效率']; }
-
-  // 一眼看全站：数字卡片 + 环形图 + 免费/工具分段条 + 提示词条形图（全部由数据实时算出）
-  function renderGlance() {
-    var total = DATA.length;
-    var verified = DATA.filter(function (e) { return e.v; }).length;
-    var freeN = DATA.filter(function (e) { return e.p === '免费' || e.p === '开源'; }).length;
-    var tiles = [
-      { n: total, label: I18N.t('stats.tileTotal') },
-      { n: verified, label: I18N.t('stats.tileVerified') },
-      { n: freeN, label: I18N.t('stats.tileFree') },
-      { n: PROMPTS.length, label: I18N.t('stats.tilePrompts') }
-    ];
-    document.getElementById('glanceTiles').innerHTML = tiles.map(function (t) {
-      return '<div class="tile"><div class="tile-num">' + t.n + '</div><div class="tile-label">' + t.label + '</div></div>';
-    }).join('');
-
-    var cats = CATEGORIES.filter(function (c) { return c !== '全部'; });
-    var counts = cats.map(function (c) { return DATA.filter(function (e) { return e.c === c; }).length; });
-    var R = 70, CIRC = 2 * Math.PI * R, offset = 0;
-    var segs = counts.map(function (n, i) {
-      var len = n / total * CIRC;
-      var s = '<circle cx="90" cy="90" r="' + R + '" fill="none" stroke="' + catColor(cats[i]) + '" stroke-width="22" stroke-dasharray="' + Math.max(len - 2, 0).toFixed(1) + ' ' + CIRC.toFixed(1) + '" stroke-dashoffset="' + (-offset).toFixed(1) + '"/>';
-      offset += len;
-      return s;
-    }).join('');
-    document.getElementById('donutWrap').innerHTML =
-      '<svg width="180" height="180" viewBox="0 0 180 180">' + segs + '</svg>' +
-      '<div class="donut-center"><div class="donut-total">' + total + '</div><div class="donut-label">' + I18N.t('stats.tileTotal') + '</div></div>';
-    document.getElementById('donutLegend').innerHTML = cats.map(function (c, i) {
-      return '<div class="legend-item"><span class="dot" style="background:' + catColor(c) + '"></span><span class="lg-name">' + I18N.cat(c) + '</span><span class="lg-n">' + counts[i] + '</span></div>';
-    }).join('');
-
-    var freeRes = freeResources.length, toolsN = tools.length;
-    var fp = Math.round(freeRes / total * 100);
-    document.getElementById('splitBar').innerHTML =
-      '<div class="split-seg" style="width:' + fp + '%;background:#34d399">' + freeRes + '</div>' +
-      '<div class="split-seg" style="width:' + (100 - fp) + '%;background:#8b5cf6">' + toolsN + '</div>';
-    document.getElementById('splitLabels').innerHTML =
-      '<div class="legend-item"><span class="dot" style="background:#34d399"></span><span class="lg-name">' + I18N.cat('免费资源') + '</span><span class="lg-n">' + freeRes + '</span></div>' +
-      '<div class="legend-item"><span class="dot" style="background:#8b5cf6"></span><span class="lg-name">' + I18N.t('nav.tools') + '</span><span class="lg-n">' + toolsN + '</span></div>';
-
-    var pcats = PROMPT_CATEGORIES.map(function (c) {
-      return { c: c, n: PROMPTS.filter(function (p) { return p.cat === c; }).length };
-    }).sort(function (a, b) { return b.n - a.n; });
-    var max = pcats[0].n;
-    document.getElementById('promptBars').innerHTML = pcats.map(function (p) {
-      return '<div class="bar-row"><span class="bar-label">' + I18N.cat(p.c) + '</span>' +
-        '<div class="bar-track"><div class="bar-fill" style="width:' + Math.round(p.n / max * 100) + '%"></div></div>' +
-        '<span class="bar-count">' + p.n + '</span></div>';
-    }).join('');
-  }
-
-  // 给每条数据挂上在 DATA 里的下标，供 i18n 查翻译
-  DATA.forEach(function (e, i) { e._idx = i; });
-
-  // 免费资源单独成区展示（已验证的排在前面）；其余 72 个为热门工具网格
-  var freeResources = DATA.filter(function (e) { return e.c === '免费资源'; });
-  freeResources.sort(function (a, b) { return (b.v ? 1 : 0) - (a.v ? 1 : 0); });
-  var tools = DATA.filter(function (e) { return e.c !== '免费资源'; });
-
-  var verifiedCount = DATA.filter(function (e) { return e.v; }).length;
-  var freeCount = DATA.filter(function (e) { return e.p === '免费' || e.p === '开源'; }).length;
-
-  // 分类按钮（免费资源已有单独展区，不再出现在筛选里）；标签随语言切换重建，值始终用中文原名
-  var toolCats = CATEGORIES.filter(function (c) { return c !== '免费资源'; });
-  function buildChips() {
-    chipsBox.innerHTML = '';
-    toolCats.forEach(function (cat) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'chip' + (cat === activeCat ? ' active' : '');
-      b.style.setProperty('--cat', catColor(cat));
-      b.innerHTML = '<span class="chip-dot"></span>';
-      b.appendChild(document.createTextNode(I18N.cat(cat)));
-      b.addEventListener('click', function () {
-        activeCat = cat;
-        Array.prototype.forEach.call(chipsBox.children, function (c) { c.classList.remove('active'); });
-        b.classList.add('active');
-        render();
-      });
-      chipsBox.appendChild(b);
-    });
-  }
-
-  function priceClass(p) {
-    return { '免费': 'free', '免费试用': 'trial', '付费': 'paid', '开源': 'oss' }[p] || '';
-  }
-
-  function badgesHTML(e) {
-    var s = '<span class="badge ' + priceClass(e.p) + '">' + I18N.price(e.p) + '</span>';
-    if (e.v) s += '<span class="badge verified">' + I18N.t('badge.verified') + '</span>';
-    return s;
-  }
-
-  function descOf(e) {
-    var tr = I18N.desc(e._idx);
-    return tr ? tr.d : e.d;
-  }
-  function noteOf(e) {
-    var tr = I18N.desc(e._idx);
-    return tr ? tr.note : (e.note || '');
-  }
-  function tagsHTML(e) {
-    var tr = I18N.desc(e._idx);
-    var tags = tr ? tr.tags : (e.t || []);
-    return tags.map(function (t) { return '<span class="tag">' + t + '</span>'; }).join('');
-  }
-
-  function matches(e, q) {
-    if (!q) return true;
-    var tr = I18N.desc(e._idx);
-    var hay = (e.n + ' ' + e.d + ' ' + (e.t || []).join(' ') + ' ' +
-      (tr ? tr.d + ' ' + (tr.note || '') + ' ' + (tr.tags || []).join(' ') + ' ' : '') + e.u).toLowerCase();
-    return hay.indexOf(q) !== -1;
-  }
-
-  function showcaseHTML(e) {
-    var note = noteOf(e) ? '<p class="sc-note">' + noteOf(e) + '</p>' : '';
-    return '<article class="sc-card reveal" style="--cat:' + catColor(e.c) + '">' +
-      '<div class="sc-visual">' + catVisual(e.c) + '</div>' +
-      '<div class="sc-body">' +
-      '<p class="sc-eyebrow">' + badgesHTML(e) + '</p>' +
-      '<h3 class="sc-name"><a href="' + e.u + '" target="_blank" rel="noopener">' + e.n + '</a></h3>' +
-      '<p class="sc-desc">' + descOf(e) + '</p>' + note +
-      '<div class="sc-bottom"><div class="tags">' + tagsHTML(e) + '</div>' +
-      '<a class="sc-cta" href="' + e.u + '" target="_blank" rel="noopener">' + I18N.t('tools.use') + '</a></div>' +
-      '</div></article>';
-  }
-
-  function cardHTML(e) {
-    var note = noteOf(e) ? '<p class="note">' + noteOf(e) + '</p>' : '';
-    return '<article class="card reveal" style="--cat:' + catColor(e.c) + '">' +
-      '<div class="card-visual">' + catVisual(e.c) + '</div>' +
-      '<div class="card-body">' +
-      '<div class="card-top"><a class="name" href="' + e.u + '" target="_blank" rel="noopener">' + e.n + '</a>' +
-      '<span class="cat">' + I18N.cat(e.c) + '</span></div>' +
-      '<p class="desc">' + descOf(e) + '</p>' + note +
-      '<div class="card-bottom"><div class="tags">' + tagsHTML(e) + '</div>' +
-      '<a class="visit" href="' + e.u + '" target="_blank" rel="noopener">' + I18N.t('tools.visit') + '</a></div>' +
-      '<div class="badges">' + badgesHTML(e) + '</div>' +
-      '</div></article>';
-  }
-
-  function render() {
-    statsEl.textContent = I18N.tf('stats', { total: DATA.length, verified: verifiedCount, free: freeCount });
-    var q = searchInput.value.trim().toLowerCase();
-
-    // 搜索同时过滤免费资源展区；无匹配时整区收起
-    var shown = freeResources.filter(function (e) { return matches(e, q); });
-    showcase.innerHTML = shown.map(showcaseHTML).join('');
-    showcaseSection.style.display = shown.length ? '' : 'none';
-
-    var list = tools.filter(function (e) {
-      if (activeCat !== '全部' && e.c !== activeCat) return false;
-      if (freeOnlyBox.checked && !(e.p === '免费' || e.p === '开源')) return false;
-      return matches(e, q);
-    });
-    grid.innerHTML = list.map(cardHTML).join('');
-    countEl.textContent = I18N.tf('tools.count', { n: list.length }) +
-      (activeCat !== '全部' ? I18N.tf('tools.countCat', { cat: I18N.cat(activeCat) }) : '');
-    emptyEl.hidden = list.length > 0;
-  }
-
-  searchInput.addEventListener('input', render);
-  freeOnlyBox.addEventListener('change', render);
-  buildChips();
-  render();
-  renderGlance();
-  if (window.I18N) I18N.onChange(function () { buildChips(); render(); renderGlance(); });
-})();
-</script>
 <div class="toast" id="toast" role="status" aria-live="polite" data-i18n="toast">已复制 ✓</div>
 
 <!-- SVIP 登录 / 注册弹窗 -->
@@ -482,134 +128,4 @@
   </div>
 </div>
 
-<script src="pay.js"></script>
-
-<script>
-(function () {
-  // ---------- 提示词库 ----------
-  var grid = document.getElementById('promptGrid');
-  var chipsBox = document.getElementById('promptChips');
-  var searchInput = document.getElementById('promptSearch');
-  var countEl = document.getElementById('promptCount');
-  var emptyEl = document.getElementById('promptEmpty');
-  var moreBtn = document.getElementById('promptMore');
-  var activeCat = '全部';
-  var limit = 48;
-  var PAGE = 48;
-
-  var byId = {};
-  PROMPTS.forEach(function (p) { byId[p.id] = p; });
-
-  // 分类配图渐变（图片加载失败时兜底显示）
-  var GRADIENTS = [
-    ['#f6d365', '#fda085'], ['#a8c0ff', '#3f2b96'], ['#fbc2eb', '#a6c1ee'],
-    ['#84fab0', '#8fd3f4'], ['#ff9a9e', '#fecfef'], ['#a18cd1', '#fbc2eb'],
-    ['#ffecd2', '#fcb69f'], ['#667eea', '#764ba2'], ['#89f7fe', '#66a6ff'],
-    ['#f093fb', '#f5576c'], ['#43e97b', '#38f9d7'], ['#fa709a', '#fee140'],
-    ['#30cfd0', '#330867'], ['#5ee7df', '#b490ca']
-  ];
-  function coverStyle(cat) {
-    var i = PROMPT_CATEGORIES.indexOf(cat);
-    if (i < 0) i = 0;
-    var g = GRADIENTS[i % GRADIENTS.length];
-    var img = PROMPT_COVERS[cat] || '';
-    return 'background-image: url(\'' + img + '\'), linear-gradient(135deg, ' + g[0] + ', ' + g[1] + ');';
-  }
-  function esc(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
-  // 分类按钮（标签随语言切换重建，值始终用中文原名）
-  function buildChips() {
-    chipsBox.innerHTML = '';
-    var cats = ['全部'].concat(PROMPT_CATEGORIES);
-    cats.forEach(function (cat) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'chip' + (cat === activeCat ? ' active' : '');
-      b.textContent = I18N.cat(cat);
-      b.addEventListener('click', function () {
-        activeCat = cat;
-        limit = PAGE;
-        Array.prototype.forEach.call(chipsBox.children, function (c) { c.classList.remove('active'); });
-        b.classList.add('active');
-        render();
-      });
-      chipsBox.appendChild(b);
-    });
-  }
-
-  function titleOf(p) {
-    var tr = I18N.title(p.id);
-    return tr || p.title;
-  }
-
-  function cardHTML(p) {
-    var meta = [];
-    if (p.aspect) meta.push(p.aspect);
-    if (p.seconds) meta.push(p.seconds + I18N.t('prompts.seconds'));
-    if (!meta.length) meta.push(p.source === 'prompt-engineering-guide' ? I18N.t('prompts.metaGeneral') : I18N.t('prompts.metaVideo'));
-    var src = p.url ? '<a class="p-src" href="' + p.url + '" target="_blank" rel="noopener">' + I18N.t('prompts.src') + '</a>' : '';
-    return '<article class="p-card reveal">' +
-      '<div class="p-cover" style="' + coverStyle(p.cat) + '"><span class="p-cat">' + esc(I18N.cat(p.cat)) + '</span></div>' +
-      '<div class="p-body">' +
-      '<h3 class="p-title">' + esc(titleOf(p)) + '</h3>' +
-      '<p class="p-meta">' + meta.join(' · ') + '</p>' +
-      '<p class="p-text">' + esc(p.text) + '</p>' +
-      '<div class="p-foot"><button type="button" class="copy-btn" data-id="' + p.id + '">' + I18N.t('prompts.copy') + '</button>' + src + '</div>' +
-      '</div></article>';
-  }
-
-  function render() {
-    var q = searchInput.value.trim().toLowerCase();
-    var list = PROMPTS.filter(function (p) {
-      if (activeCat !== '全部' && p.cat !== activeCat) return false;
-      if (!q) return true;
-      var hay = (titleOf(p) + ' ' + p.title + ' ' + I18N.cat(p.cat) + ' ' + p.cat + ' ' + p.text).toLowerCase();
-      return hay.indexOf(q) !== -1;
-    });
-    var shown = list.slice(0, limit);
-    grid.innerHTML = shown.map(cardHTML).join('');
-    countEl.textContent = I18N.tf('prompts.count', { n: list.length }) +
-      (list.length > shown.length ? I18N.tf('prompts.countShown', { s: shown.length }) : '') +
-      (activeCat !== '全部' ? I18N.tf('prompts.countCat', { cat: I18N.cat(activeCat) }) : '');
-    emptyEl.hidden = list.length > 0;
-    moreBtn.hidden = list.length <= shown.length;
-  }
-
-  searchInput.addEventListener('input', function () { limit = PAGE; render(); });
-  moreBtn.addEventListener('click', function () { limit += PAGE; render(); });
-
-  grid.addEventListener('click', function (ev) {
-    var btn = ev.target.closest ? ev.target.closest('.copy-btn') : null;
-    if (!btn) return;
-    var p = byId[btn.getAttribute('data-id')];
-    if (!p) return;
-    function done() {
-      btn.textContent = I18N.t('prompts.copied');
-      btn.classList.add('done');
-      setTimeout(function () { btn.textContent = I18N.t('prompts.copy'); btn.classList.remove('done'); }, 1800);
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(p.text).then(done, function () { fallbackCopy(p.text, done); });
-    } else {
-      fallbackCopy(p.text, done);
-    }
-  });
-  function fallbackCopy(text, done) {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); done(); } catch (e) { /* 复制失败时保持按钮不变 */ }
-    document.body.removeChild(ta);
-  }
-  buildChips();
-  render();
-  if (window.I18N) I18N.onChange(function () { buildChips(); render(); });
-})();
-</script>
-</body>
-</html>
+<script src="i18n.js"></script><script src="app.js"></script><script src="prompts.js"></script><script src="pay.js"></script></body></html>
