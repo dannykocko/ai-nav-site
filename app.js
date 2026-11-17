@@ -206,6 +206,13 @@ const CATEGORIES = ["全部", "免费资源", "生图", "生视频", "写作对�
 
 (function () {
   function boot() {
+    // 导航滚动状态：顶部透明，滚动后白底毛玻璃（b.ai 式）
+    var navEl = document.querySelector('.apple-nav');
+    if (navEl) {
+      var onScroll = function () { navEl.classList.toggle('scrolled', window.scrollY > 8); };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
   function node(id) { return document.getElementById(id) || document.createElement('div'); }
   var grid = node('grid');
   var showcase = node('showcase');
@@ -218,11 +225,11 @@ const CATEGORIES = ["全部", "免费资源", "生图", "生视频", "写作对�
   var statsEl = node('stats');
   var activeCat = '全部';
 
-  // 分类强调色（与 styles.css 的 --cat-* 同一份色值）
+  // 分类强调色（与 styles.css :root --cat-* 同一份色值：干净分明）
   var CAT_COLORS = {
-    '免费资源': '#D97706', '生图': '#8f7a39', '生视频': '#a67758',
-    '写作对话': '#667c7a', '编程': '#967b32', '音频音乐': '#558077',
-    '搜索办公': '#687a8b', '设计': '#a26d40', '效率': '#788344'
+    '免费资源': '#059669', '生图': '#7C3AED', '生视频': '#DB2777',
+    '写作对话': '#0284C7', '编程': '#D97706', '音频音乐': '#0D9488',
+    '搜索办公': '#4F46E5', '设计': '#EA580C', '效率': '#65A30D'
   };
   function catColor(c) { return CAT_COLORS[c] || '#D97706'; }
 
